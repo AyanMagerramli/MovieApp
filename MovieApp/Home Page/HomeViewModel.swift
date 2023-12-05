@@ -14,6 +14,7 @@ class HomeViewModel {
     var upcomingItem: Upcoming?
     var success: (() -> Void)?
     var error: ((String) -> Void)?
+    var movieResult: [Result] = []
     
     
     func getWelcomeItems() {
@@ -27,7 +28,7 @@ class HomeViewModel {
             } else {
                 if let data = data {
                     self.welcomeItem = data
-                   // print( self.welcomeItem?.results ?? "")
+                    print( self.welcomeItem?.results?.count ?? 1000)
                     self.success?()
                 }
             }

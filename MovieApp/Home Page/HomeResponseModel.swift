@@ -38,6 +38,14 @@ struct ResultResponseModel: Codable, HomeCellProtocol{
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
+    
+    var ttle: String {
+        title ?? ""
+    }
+    
+    var img: String {
+        "\(Endpoints.forImagePath.rawValue)\(posterPath ?? "")"
+    }
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -55,13 +63,6 @@ struct ResultResponseModel: Codable, HomeCellProtocol{
     }
     
     //HomeCellProtocol stubs
-    var ttle: String {
-        title ?? ""
-    }
-    
-    var img: String {
-        "\(Endpoints.forImagePath.rawValue)\(posterPath ?? "")"
-    }
 }
 
 // MARK: - Popular

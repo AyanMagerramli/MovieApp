@@ -9,41 +9,27 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-protocol HomeCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-protocol PopularCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-protocol UpcomingCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-protocol TopratedCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
 class HomePlayingNowsCell: UICollectionViewCell {
     static let identifier = "HomeCell"
+   // var indexPath: IndexPath?
+    var indexPath: IndexPath? {
+            didSet {
+                collectionView.reloadData()
+            }
+        }
+   
     var viewModel = HomeViewModel()
-    var indexPath: IndexPath?
-    
+
     override init(frame: CGRect) {
          super.init(frame: frame)
         configureUI()
+        fetchData()
      }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //this type of uiElement initilazing is called self executing closure
     private let titleLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,54 +39,82 @@ class HomePlayingNowsCell: UICollectionViewCell {
         label.backgroundColor = .red
         return label
     }()
-    //  () - at the end: This immediately invokes the closure, ensuring that the titleLabel property is assigned the result of the closure execution, which is the configured UILabel` instance.
     
-    private let image: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.layer.cornerRadius = 16
-        image.layer.masksToBounds = true
-        image.contentMode = .scaleAspectFit
-        image.frame = .init(x: 0, y: 0, width: 167, height: 240)
-        image.clipsToBounds = true
-        return image
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.dataSource = self
+        collection.delegate = self
+        collection.register(ResusableCell.self, forCellWithReuseIdentifier: "ResusableCell")
+        collection.backgroundColor = .red
+        return collection
     }()
     
     private func configureUI() {
-        let stack = UIStackView()
-        stack.addArrangedSubview(image)
-        stack.addArrangedSubview(titleLabel)
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(stack)
-        
-       //setting constraints
-        stack.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(0)
-            $0.bottom.equalToSuperview().inset(0)
+        contentView.addSubview(collectionView)
+        collectionView.frame = contentView.bounds
+    }
+    
+    func fetchData() {
+        viewModel.getWelcomeItems()
+        viewModel.getPopularMovies()
+        viewModel.getTopratedMovies()
+        viewModel.getUpcomingMovies()
+        viewModel.success = { [weak self] in
+            self?.collectionView.reloadData()
+            print(self?.viewModel.welcomeItem?.results?.count ?? 90)
         }
     }
-    
-    func setupDataForWellcome (data: HomeCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img),completed: nil)
-        titleLabel.text = data.ttle
-//        print("MY CELL ISSSS \(viewModel.welcomeItem?.results?[indexPath?.row ?? 0].title ?? "no iteeem")")
-//        print("RESULTS AREEE \(viewModel.welcomeItem?.results ?? [])")
+}
+
+extension HomePlayingNowsCell: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
     }
     
-    func setupDataForPopular (data: PopularCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img),completed: nil)
-        titleLabel.text = data.ttle
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        var itemsCount = 0
+        if indexPath?.section == 0 {
+            itemsCount = viewModel.welcomeItem?.results?.count ?? 4
+        } else if indexPath?.section == 1 {
+            itemsCount = viewModel.popularItem?.results?.count ?? 4
+        } else if indexPath?.section == 2 {
+            itemsCount = viewModel.topratedItem?.results?.count ?? 4
+        } else if indexPath?.section == 3 {
+            itemsCount = viewModel.upcomingItem?.results?.count ?? 4
+        }
+        return itemsCount
     }
     
-    func setupDataForUpcoming (data: UpcomingCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img),completed: nil)
-        titleLabel.text = data.ttle
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResusableCell", for: indexPath) as! ResusableCell
+//        cell.indexPath = indexPath
+            cell.viewModel = viewModel
+        if self.indexPath?.section == 0 {
+            cell.setupDataForWellcome(data: (viewModel.welcomeItem?.results?[indexPath.row])!)
+        } else if self.indexPath?.section == 1 {
+            cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
+        } else if self.indexPath?.section == 2 {
+            cell.setupDataForWellcome(data: (viewModel.welcomeItem?.results?[indexPath.row])!)
+        } else if self.indexPath?.section == 3 {
+            cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
+        }
+  //      cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
+        cell.backgroundColor = .blue
+        //cell.indexPath = indexPath
+        return cell
+    }
+}
+
+extension HomePlayingNowsCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
-    func setupDataForToprated (data: TopratedCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img),completed: nil)
-        titleLabel.text = data.ttle
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: 167, height: 300)
     }
 }

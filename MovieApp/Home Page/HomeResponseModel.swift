@@ -7,11 +7,12 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct WelcomeResponseModel: Codable {
-    let dates: DatesResponseModel?
+
+// MARK: - NowPlayingResponseModel
+struct NowPlayingResponseModel: Codable {
+    let dates: DatesNowPlaying?
     let page: Int?
-    let results: [ResultResponseModel]?
+    let results: [NowPlayingResult]?
     let totalPages, totalResults: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -22,23 +23,12 @@ struct WelcomeResponseModel: Codable {
 }
 
 // MARK: - Dates
-struct DatesResponseModel: Codable {    
+struct DatesNowPlaying: Codable {
     let maximum, minimum: String?
 }
 
 // MARK: - Result
-struct ResultResponseModel: Codable, HomeCellProtocol{
-    let adult: Bool?
-    let backdropPath: String?
-    let genreIDS: [Int]?
-    let id: Int?
-    let originalLanguage, originalTitle, overview: String?
-    let popularity: Double?
-    let posterPath, releaseDate, title: String?
-    let video: Bool?
-    let voteAverage: Double?
-    let voteCount: Int?
-    
+struct NowPlayingResult: Codable, HomeCellProtocol {
     var ttle: String {
         title ?? ""
     }
@@ -46,6 +36,18 @@ struct ResultResponseModel: Codable, HomeCellProtocol{
     var img: String {
         "\(Endpoints.forImagePath.rawValue)\(posterPath ?? "")"
     }
+    
+    let adult: Bool?
+    let backdropPath: String?
+    let genreIDS: [Int]?
+    let id: Int?
+    let originalLanguage: OriginalLanguageNowPlaying?
+    let originalTitle, overview: String?
+    let popularity: Double?
+    let posterPath, releaseDate, title: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -61,9 +63,14 @@ struct ResultResponseModel: Codable, HomeCellProtocol{
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
-    
-    //HomeCellProtocol stubs
 }
+
+enum OriginalLanguageNowPlaying: String, Codable {
+    case en = "en"
+    case ja = "ja"
+    case uk = "uk"
+}
+
 
 // MARK: - Popular
 struct Popular: Codable {
@@ -78,8 +85,16 @@ struct Popular: Codable {
     }
 }
 
-// MARK: - Popular
+// MARK: - Result
 struct Result: Codable, PopularCellProtocol {
+    var ttle: String {
+        title ?? ""
+    }
+    
+    var img: String {
+        "\(Endpoints.forImagePath.rawValue)\(posterPath ?? "")"
+    }
+    
     let adult: Bool?
     let backdropPath: String?
     let genreIDS: [Int]?
@@ -91,14 +106,6 @@ struct Result: Codable, PopularCellProtocol {
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
-    
-    var ttle: String {
-        title ?? ""
-    }
-    
-    var img: String {
-        "\(Endpoints.forImagePath.rawValue)\(posterPath ?? "")"
-    }
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -119,6 +126,7 @@ struct Result: Codable, PopularCellProtocol {
 enum OriginalLanguage: String, Codable {
     case ar = "ar"
     case en = "en"
+    case ja = "ja"
     case mn = "mn"
 }
 

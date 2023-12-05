@@ -8,9 +8,6 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
-    
-//    private let viewModel = HomeViewModel()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -18,7 +15,7 @@ final class HomeViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
-        collection.register(HomePlayingNowsCell.self, forCellWithReuseIdentifier: "HomePlayingNowsCell")
+        collection.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
         collection.backgroundColor = .white
         return collection
     }()
@@ -26,22 +23,6 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-//        viewModel.getPopularMovies { [weak self] _ in
-//            self?.collectionView.reloadData()
-//        }
-//        viewModel.getTopratedMovies { [weak self] _ in
-//            self?.collectionView.reloadData()
-//        }
-//        viewModel.getWelcomeItems{ [weak self] _ in
-//            self?.collectionView.reloadData()
-//        }
-//        viewModel.getUpcomingMovies{ [weak self] _ in
-//            self?.collectionView.reloadData()
-//        }
-//        viewModel.success = { [weak self] in
-//            self?.collectionView.reloadData()
-//            print(self?.viewModel.welcomeItem?.results?.count ?? "noooo")
-//        }
     }
     
     private func configureUI() {
@@ -62,8 +43,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomePlayingNowsCell", for: indexPath) as! HomePlayingNowsCell
-     //   cell.indexPath?.section = indexPath.section
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
         cell.indexPath = indexPath
         return cell
     }
@@ -76,11 +56,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 370)
+        .init(width: collectionView.frame.width, height: 400)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 10, left: 10, bottom: 20, right: 20)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        .init(top: 0, left: 10, bottom: 24, right: 20)
+//    }
 }
 

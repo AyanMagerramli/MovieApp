@@ -9,17 +9,17 @@ import Foundation
 
 class HomeViewModel {
     
-    var welcomeItem: WelcomeResponseModel?
+    var nowPlayingItem: NowPlayingResponseModel?
     var popularItem: Popular?
     var topratedItem: TopRated?
     var upcomingItem: Upcoming?
-    var success: (() -> Void)?
+//    var success: (() -> Void)?
     var error: ((String) -> Void)?
     
     
-    func getWelcomeItems(completion: @escaping (WelcomeResponseModel?) -> Void ) {
+    func getWelcomeItems(completion: @escaping (NowPlayingResponseModel?) -> Void ) {
         NetworkManager.request(
-            model: WelcomeResponseModel.self,
+            model: NowPlayingResponseModel.self,
             endpoint: Endpoints.welcomeEndpoint.rawValue )
         {
             data, error in
@@ -27,8 +27,8 @@ class HomeViewModel {
                 self.error? (error)
             } else {
                 if let data = data {
-                    self.welcomeItem = data
-                    completion(self.welcomeItem)
+                    self.nowPlayingItem = data
+                    completion(self.nowPlayingItem)
                 }
             }
         }
@@ -60,13 +60,11 @@ class HomeViewModel {
         {
             data, error in
             if let error {
-                self.error?(error)
+                self.error? (error)
             } else {
                 if let data = data {
                     self.topratedItem = data
                     completion(self.topratedItem)
-                    
-                 //   self.success?()
                 }
             }
         }
@@ -80,11 +78,10 @@ class HomeViewModel {
         {
             data, error in
             if let error {
-                self.error?(error)
+                self.error? (error)
             } else {
                 self.upcomingItem = data
                 completion(self.upcomingItem)
-             //   self.success?()
             }
         }
     }

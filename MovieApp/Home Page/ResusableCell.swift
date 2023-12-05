@@ -36,17 +36,15 @@ class ResusableCell: UICollectionViewCell {
 
      private let titleLabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .black
         label.numberOfLines = 0
-        label.backgroundColor = .red
+        label.backgroundColor = .cyan
         return label
     }()
    
      private let image: UIImageView = {
         let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFit
@@ -58,30 +56,34 @@ class ResusableCell: UICollectionViewCell {
     override init(frame: CGRect) {
          super.init(frame: frame)
         configureUI()
-        viewModel.getPopularMovies()
-        viewModel.getWelcomeItems()
-        viewModel.getTopratedMovies()
-        viewModel.getUpcomingMovies()
      }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image.image = nil
+        titleLabel.text = nil
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func configureUI() {
-        let stack = UIStackView()
-        stack.addArrangedSubview(image)
-        stack.addArrangedSubview(titleLabel)
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(stack)
+        addSubview(image)
+        addSubview(titleLabel)
         
-       //setting constraints
-        stack.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(4)
-            $0.bottom.equalToSuperview().inset(0)
+        image.snp.makeConstraints {
+            $0.height.equalTo(150)
+            $0.width.equalTo(90)
         }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(image.snp_bottomMargin).offset(10)
+        }
+        
+        
+        
+        
     }
     
     func setupDataForWellcome (data: HomeCellProtocol) {

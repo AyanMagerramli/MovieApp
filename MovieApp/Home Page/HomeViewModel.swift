@@ -8,16 +8,16 @@
 import Foundation
 
 class HomeViewModel {
+    
     var welcomeItem: WelcomeResponseModel?
     var popularItem: Popular?
     var topratedItem: TopRated?
     var upcomingItem: Upcoming?
     var success: (() -> Void)?
     var error: ((String) -> Void)?
-    var movieResult: [Result] = []
     
     
-    func getWelcomeItems() {
+    func getWelcomeItems(completion: @escaping (WelcomeResponseModel?) -> Void ) {
         NetworkManager.request(
             model: WelcomeResponseModel.self,
             endpoint: Endpoints.welcomeEndpoint.rawValue )
@@ -28,15 +28,14 @@ class HomeViewModel {
             } else {
                 if let data = data {
                     self.welcomeItem = data
-                    print( self.welcomeItem?.results?.count ?? 1000)
-                    self.success?()
+                    completion(self.welcomeItem)
                 }
             }
         }
     }
    
     
-    func getPopularMovies() {
+    func getPopularMovies(completion: @escaping (Popular?) -> Void) {
         NetworkManager.request(
             model: Popular.self,
             endpoint: Endpoints.popularEndpoint.rawValue)
@@ -47,14 +46,14 @@ class HomeViewModel {
             } else {
                 if let data = data {
                     self.popularItem = data
-                    self.success?()
+                    completion(self.popularItem)
                 }
             }
         }
     }
     
     
-    func getTopratedMovies() {
+    func getTopratedMovies(completion: @escaping (TopRated?) -> Void) {
         NetworkManager.request(
             model: TopRated.self,
             endpoint: Endpoints.topRatedEndpoint.rawValue)
@@ -65,14 +64,16 @@ class HomeViewModel {
             } else {
                 if let data = data {
                     self.topratedItem = data
-                    self.success?()
+                    completion(self.topratedItem)
+                    
+                 //   self.success?()
                 }
             }
         }
     }
     
     
-    func getUpcomingMovies() {
+    func getUpcomingMovies(completion: @escaping (Upcoming?) -> Void) {
         NetworkManager.request(
             model: Upcoming.self,
             endpoint: Endpoints.upcomingEndpoint.rawValue)
@@ -82,7 +83,8 @@ class HomeViewModel {
                 self.error?(error)
             } else {
                 self.upcomingItem = data
-                self.success?()
+                completion(self.upcomingItem)
+             //   self.success?()
             }
         }
     }

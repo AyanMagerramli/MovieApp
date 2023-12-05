@@ -9,7 +9,7 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
-    private let viewModel = HomeViewModel()
+//    private let viewModel = HomeViewModel()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,14 +26,22 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        viewModel.getPopularMovies()
-        viewModel.getTopratedMovies()
-        viewModel.getWelcomeItems()
-        viewModel.getUpcomingMovies()
-        viewModel.success = { [weak self] in
-            self?.collectionView.reloadData()
-            print(self?.viewModel.welcomeItem?.results?.count ?? "noooo")
-        }
+//        viewModel.getPopularMovies { [weak self] _ in
+//            self?.collectionView.reloadData()
+//        }
+//        viewModel.getTopratedMovies { [weak self] _ in
+//            self?.collectionView.reloadData()
+//        }
+//        viewModel.getWelcomeItems{ [weak self] _ in
+//            self?.collectionView.reloadData()
+//        }
+//        viewModel.getUpcomingMovies{ [weak self] _ in
+//            self?.collectionView.reloadData()
+//        }
+//        viewModel.success = { [weak self] in
+//            self?.collectionView.reloadData()
+//            print(self?.viewModel.welcomeItem?.results?.count ?? "noooo")
+//        }
     }
     
     private func configureUI() {

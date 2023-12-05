@@ -13,15 +13,16 @@ class HomePlayingNowsCell: UICollectionViewCell {
     static let identifier = "HomeCell"
    // var indexPath: IndexPath?
     var indexPath: IndexPath? {
-            didSet {
-                collectionView.reloadData()
-            }
+        didSet {
+            collectionView.reloadData()
         }
+    }
    
-    var viewModel = HomeViewModel()
+    let viewModel = HomeViewModel()
 
     override init(frame: CGRect) {
          super.init(frame: frame)
+        
         configureUI()
         fetchData()
      }
@@ -58,13 +59,20 @@ class HomePlayingNowsCell: UICollectionViewCell {
     }
     
     func fetchData() {
-        viewModel.getWelcomeItems()
-        viewModel.getPopularMovies()
-        viewModel.getTopratedMovies()
-        viewModel.getUpcomingMovies()
-        viewModel.success = { [weak self] in
+        viewModel.getPopularMovies { [weak self] _ in
             self?.collectionView.reloadData()
-            print(self?.viewModel.welcomeItem?.results?.count ?? 90)
+        }
+        
+        viewModel.getTopratedMovies { [weak self] _ in
+            self?.collectionView.reloadData()
+        }
+        
+        viewModel.getWelcomeItems{ [weak self] _ in
+            self?.collectionView.reloadData()
+        }
+        
+        viewModel.getUpcomingMovies{ [weak self] _ in
+            self?.collectionView.reloadData()
         }
     }
 }
@@ -75,7 +83,7 @@ extension HomePlayingNowsCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
+        
         var itemsCount = 0
         if indexPath?.section == 0 {
             itemsCount = viewModel.welcomeItem?.results?.count ?? 4
@@ -91,23 +99,29 @@ extension HomePlayingNowsCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResusableCell", for: indexPath) as! ResusableCell
-//        cell.indexPath = indexPath
-            cell.viewModel = viewModel
+        cell.indexPath = indexPath
         if self.indexPath?.section == 0 {
-            cell.setupDataForWellcome(data: (viewModel.welcomeItem?.results?[indexPath.row])!)
+            if let items = viewModel.welcomeItem?.results?[indexPath.row] {
+                cell.setupDataForWellcome(data: items)
+            }
         } else if self.indexPath?.section == 1 {
-            cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
+            if let items = viewModel.popularItem?.results?[indexPath.row] {
+                cell.setupDataForPopular(data: items)
+            }
         } else if self.indexPath?.section == 2 {
-            cell.setupDataForWellcome(data: (viewModel.welcomeItem?.results?[indexPath.row])!)
+            if let items = viewModel.topratedItem?.results?[indexPath.row] {
+                cell.setupDataForToprated(data: items)
+            }
         } else if self.indexPath?.section == 3 {
-            cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
+            if let items = viewModel.upcomingItem?.results?[indexPath.row] {
+                cell.setupDataForUpcoming(data: items)
+            }
         }
-  //      cell.setupDataForPopular(data: (viewModel.popularItem?.results?[indexPath.row])!)
         cell.backgroundColor = .blue
-        //cell.indexPath = indexPath
         return cell
     }
 }
+
 
 extension HomePlayingNowsCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -118,3 +132,4 @@ extension HomePlayingNowsCell: UICollectionViewDelegate, UICollectionViewDelegat
         .init(width: 167, height: 300)
     }
 }
+

@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
 
 //MARK: -CELL Data Configure Protocols
 protocol HomeCellProtocol {
@@ -15,24 +14,8 @@ protocol HomeCellProtocol {
     var img: String {get}
 }
 
-protocol PopularCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-protocol UpcomingCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-protocol TopratedCellProtocol {
-    var ttle: String {get}
-    var img: String {get}
-}
-
-
 //MARK: -NestedCollectionCell within collection view in HomeCell
-class NestedCollectionCell: UICollectionViewCell {
+class TopImageBottomLabelCell: UICollectionViewCell {
     static let identifier = "NestedCollectionCell"
     var indexPath: IndexPath?
 
@@ -50,7 +33,7 @@ class NestedCollectionCell: UICollectionViewCell {
         image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFit
-        image.frame = .init(x: 0, y: 0, width: 167, height: 240)
+       // image.frame = .init(x: 0, y: 0, width: 167, height: 240)
         image.clipsToBounds = true
         return image
     }()
@@ -80,28 +63,13 @@ class NestedCollectionCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(image.snp_bottomMargin).offset(16)
+            $0.top.equalTo(image.snp_bottomMargin).offset(8)
         }
     }
   
-//MARK: - CELL data configure methods
-    func setupDataForWellcome (data: HomeCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img))
-        titleLabel.text = data.ttle
-    }
-    
-    func setupDataForPopular (data: PopularCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img))
-        titleLabel.text = data.ttle
-    }
-    
-    func setupDataForUpcoming (data: UpcomingCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img))
-        titleLabel.text = data.ttle
-    }
-    
-    func setupDataForToprated (data: TopratedCellProtocol) {
-        image.sd_setImage(with: URL(string: data.img))
+//MARK: - CELL data configure method
+    func configureCell (data: HomeCellProtocol) {
+        image.loadImage(url: data.img)
         titleLabel.text = data.ttle
     }
 }

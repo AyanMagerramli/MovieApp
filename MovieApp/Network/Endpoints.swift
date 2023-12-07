@@ -8,8 +8,7 @@
 import Foundation
 
 enum Endpoints: String {
-    case forImagePath = "https://image.tmdb.org/t/p/original"
-    case welcomeEndpoint = "movie/now_playing"
+    case nowPlayingEndpoint = "movie/now_playing"
     case popularEndpoint = "movie/popular"
     case topRatedEndpoint = "movie/top_rated"
     case upcomingEndpoint = "movie/upcoming"    

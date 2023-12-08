@@ -34,17 +34,18 @@ final class HomeViewController: UIViewController {
         return label
     }()
     
-    private let menuButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "menuFilters"), for: .normal)
-        button.backgroundColor = .white
-        return button
-    }
+//    private let menuButton = {
+//        let button = UIButton()
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setImage(UIImage(named: "menuFilters"), for: .normal)
+//        button.backgroundColor = .white
+//        return button
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupNavigation()
         viewModel.getMovies()
         viewModel.success = { [weak self] in
             self?.collectionView.reloadData()
@@ -54,7 +55,7 @@ final class HomeViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         view.addSubview(titleLabel)
-        view.addSubview(menuButton())
+        //view.addSubview(menuButton())
         view.backgroundColor = .white
         
         collectionView.snp.makeConstraints { make in
@@ -65,6 +66,22 @@ final class HomeViewController: UIViewController {
             make.bottom.equalTo(collectionView.snp.top).offset(-24)
             make.left.equalToSuperview().inset(24)
         }
+    }
+
+    
+    @objc func yourButtonTapped() {
+        print("search button has been tapped")
+    }
+    
+    func setupNavigation() {
+        let vc = HomeViewController()
+        let navCon = UINavigationController(rootViewController: vc)
+        let menuFilterButton = UIBarButtonItem(
+            image: UIImage(named: "searchAction"),
+            style: .plain,
+            target: self,
+            action: #selector(yourButtonTapped))
+        navigationItem.rightBarButtonItem = menuFilterButton
     }
 }
 
@@ -90,11 +107,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 390)
+        .init(width: collectionView.frame.width, height: 320)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 4, left: 0, bottom: 24, right: 0)
+        .init(top: 4, left: 0, bottom: 12, right: 0)
     }
 }
 

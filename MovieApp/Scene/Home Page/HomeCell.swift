@@ -58,7 +58,7 @@ class HomeCell: UICollectionViewCell {
             make.height.equalTo(390)
         }
         titleLabel.snp.makeConstraints { make in 
-            make.bottom.equalTo(collectionView.snp.top).offset(16)
+            make.bottom.equalTo(collectionView.snp.top).offset(-16)
             make.left.equalTo(collectionView.snp.left).offset(24)
         }
     }

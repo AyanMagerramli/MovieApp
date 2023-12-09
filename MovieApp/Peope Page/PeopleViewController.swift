@@ -14,11 +14,10 @@ class PeopleViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.backgroundColor = .white
         collection.dataSource = self
         collection.delegate = self
         collection.register(TopImageBottomLabelCell.self, forCellWithReuseIdentifier: TopImageBottomLabelCell.identifier)
-        collection.backgroundColor = .white
         return collection
     }()
 
@@ -33,11 +32,11 @@ class PeopleViewController: UIViewController {
       
     }
     private func configureUI() {
+        title = "Celebrities"
         view.addSubview(collectionView)
     }
     
     private func setupConstraints() {
-        collectionView.backgroundColor = .red
         collectionView.snp.makeConstraints { make in
             make.bottom.top.left.right.equalToSuperview().inset(0)
         }

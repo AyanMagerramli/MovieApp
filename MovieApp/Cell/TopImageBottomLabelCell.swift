@@ -54,8 +54,8 @@ class TopImageBottomLabelCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        addSubview(image)
-        addSubview(titleLabel)
+        contentView.addSubview(image)
+        contentView.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(image.snp_bottomMargin).offset(10)

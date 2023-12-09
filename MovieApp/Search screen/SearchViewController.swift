@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        view.backgroundColor = .white
         
     }
     
@@ -25,22 +26,24 @@ class SearchViewController: UIViewController {
         return table
     }()
     
-    private let textField: UITextField = {
+    private let searchField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 16
+        textField.backgroundColor = .systemGray4
         return textField
     }()
     
     func configureUI() {
+        title = "Search"
         view.addSubview(tableView)
-        view.addSubview(textField)
+        view.addSubview(searchField)
         tableView.snp.makeConstraints { make in
             make.bottom.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(172)
         }
         
-        textField.snp.makeConstraints { make in
+        searchField.snp.makeConstraints { make in
             make.bottom.equalTo(tableView.snp.top).offset(-12)
             make.left.equalTo(view.safeAreaInsets.left).offset(12)
             make.right.equalTo(view.safeAreaInsets.right).offset(-12)
@@ -55,7 +58,8 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as! SearchCell
+        cell.moviePoster.image = UIImage(named: "HomeTabItem")
         return cell
     }
 }
@@ -66,6 +70,6 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        220
+        150
     }
 }

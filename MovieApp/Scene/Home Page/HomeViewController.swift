@@ -20,6 +20,7 @@ final class HomeViewController: UIViewController {
         collection.delegate = self
         collection.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
         collection.backgroundColor = .white
+        title = "Movies"
         return collection
     }()
     
@@ -42,7 +43,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        setupNavigation()
+        setupNavigationBarButtons()
         configureViewModel()
     }
 
@@ -52,8 +53,8 @@ final class HomeViewController: UIViewController {
         view.backgroundColor = .white
         
         collectionView.snp.makeConstraints { make in
-            make.bottom.left.right.equalToSuperview().inset(0)
-            make.top.equalToSuperview().inset(172)
+            make.bottom.top.left.right.equalToSuperview().inset(0)
+            
         }
     }
 
@@ -63,13 +64,24 @@ final class HomeViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    func setupNavigation() {
+    @objc func menuFilterButtonTapped () {
+        print("Menu filter button has been tapped")
+    }
+    
+    func setupNavigationBarButtons() {
         let searchButton = UIBarButtonItem(
             image: UIImage(named: "searchAction"),
             style: .plain,
             target: self,
             action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem = searchButton
+        
+        let menuFilterButton = UIBarButtonItem(
+           image: UIImage(named: "menuFilters"),
+           style: .plain,
+           target: self,
+           action: #selector(menuFilterButtonTapped))
+        navigationItem.leftBarButtonItem = menuFilterButton
     }
 }
 

@@ -26,7 +26,7 @@ class HomeCell: UICollectionViewCell {
     private let titleLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = UIColor(named: "#2B2C34")
         label.numberOfLines = 0
         label.backgroundColor = .white
@@ -57,11 +57,11 @@ class HomeCell: UICollectionViewCell {
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(30)
         }
         titleLabel.snp.makeConstraints { make in 
-            make.bottom.equalTo(collectionView.snp.top).offset(-16)
-            make.left.equalTo(collectionView.snp.left).offset(24)
+            make.bottom.equalTo(collectionView.snp.top).offset(4)
+            make.left.equalToSuperview().inset(34)
         }
     }
     
@@ -95,11 +95,19 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 167, height: collectionView.frame.height)
+        .init(width: 180, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         .init(top: 0, left: 24, bottom: 0, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        20
     }
 }
 

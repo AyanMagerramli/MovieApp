@@ -12,12 +12,14 @@ class NetworkManager {
     static func request<T: Codable>(
         model: T.Type,
         endpoint: String?,
+        parameters: Parameters? = nil,
         method: HTTPMethod = .get,
         encoding: ParameterEncoding = URLEncoding.default,
         completion: @escaping((T?, String?) -> Void))
     {
         AF.request("\(NetworkHelper.baseURL)\(endpoint ?? "")",
                    method: method,
+                   parameters: parameters,
                    encoding: encoding,
                    headers: NetworkHelper.header).responseDecodable(of: T.self) {
             response in

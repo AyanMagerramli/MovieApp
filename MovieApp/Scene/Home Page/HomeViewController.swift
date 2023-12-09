@@ -23,17 +23,6 @@ final class HomeViewController: UIViewController {
         return collection
     }()
     
-    private let titleLabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 24)
-        label.text = "Movies"
-        label.textColor = UIColor(named: "#222F3D")
-        label.numberOfLines = 0
-        label.backgroundColor = .white
-        return label
-    }()
-    
 //    private let menuButton = {
 //        let button = UIButton()
 //        button.translatesAutoresizingMaskIntoConstraints = false
@@ -42,19 +31,23 @@ final class HomeViewController: UIViewController {
 //        return button
 //    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureUI()
-        setupNavigation()
+    fileprivate func configureViewModel() {
         viewModel.getMovies()
         viewModel.success = { [weak self] in
             self?.collectionView.reloadData()
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureUI()
+        setupNavigation()
+        configureViewModel()
+    }
 
     private func configureUI() {
         view.addSubview(collectionView)
-        view.addSubview(titleLabel)
         //view.addSubview(menuButton())
         view.backgroundColor = .white
         
@@ -62,26 +55,21 @@ final class HomeViewController: UIViewController {
             make.bottom.left.right.equalToSuperview().inset(0)
             make.top.equalToSuperview().inset(172)
         }
-        titleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).offset(-24)
-            make.left.equalToSuperview().inset(24)
-        }
     }
 
     
-    @objc func yourButtonTapped() {
-        print("search button has been tapped")
+    @objc func searchButtonTapped() {
+       let controller = SearchViewController()
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func setupNavigation() {
-        let vc = HomeViewController()
-        let navCon = UINavigationController(rootViewController: vc)
-        let menuFilterButton = UIBarButtonItem(
+        let searchButton = UIBarButtonItem(
             image: UIImage(named: "searchAction"),
             style: .plain,
             target: self,
-            action: #selector(yourButtonTapped))
-        navigationItem.rightBarButtonItem = menuFilterButton
+            action: #selector(searchButtonTapped))
+        navigationItem.rightBarButtonItem = searchButton
     }
 }
 
@@ -107,7 +95,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 320)
+        .init(width: collectionView.frame.width, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

@@ -32,7 +32,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         let image = UIImageView()
         image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
        // image.frame = .init(x: 0, y: 0, width: 167, height: 240)
         image.clipsToBounds = true
         return image
@@ -57,14 +57,18 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         addSubview(image)
         addSubview(titleLabel)
         
-        image.snp.makeConstraints {
-            $0.height.equalTo(240)
-            $0.width.equalTo(167)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(image.snp_bottomMargin).offset(10)
+            make.leading.equalToSuperview().inset(12)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(image.snp_bottomMargin).offset(8)
+        image.snp.makeConstraints { make in
+            make.top.bottom.left.right.equalToSuperview().inset(16)
         }
+//        
+//        titleLabel.snp.makeConstraints {
+//            $0.bottom.equalTo(snp_bottomMargin).offset(8)
+//        }
     }
   
 //MARK: - CELL data configure method

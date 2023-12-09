@@ -8,7 +8,7 @@
 import Foundation
 
 
-// MARK: - Movie Response Model
+    // MARK: - Movie Response Model
 struct Movie: Codable {
     let page: Int?
     let results: [MovieResult]?
@@ -21,8 +21,26 @@ struct Movie: Codable {
     }
 }
 
-// MARK: - Result Model
-struct MovieResult: Codable, HomeCellProtocol {
+    // MARK: - Result Model
+struct MovieResult: Codable, HomeCellProtocol, SearchCellProtocol {
+    
+    //Conforming SearchCellProtocol
+    var movieTitle: String {
+        title ?? ""
+    }
+    
+    var imagee: String {
+        "\(NetworkHelper.imagePath)\(posterPath ?? "")"
+    }
+    
+    var overviewText: String {
+        overview ?? ""
+    }
+    
+    var imdbScore: Double {
+        voteAverage ?? 0
+    }
+    
     
     //Conforming HomeCellProtocol
     var ttle: String {

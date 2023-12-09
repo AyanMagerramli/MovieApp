@@ -8,35 +8,21 @@
 import UIKit
 import SnapKit
 
-class SearchCell: UITableViewCell {
+    //MARK: -Protocol for Configure Cell function
+protocol SearchCellProtocol {
+    var movieTitle: String { get }
+    var imagee: String { get }
+    var overviewText: String { get }
+    var imdbScore: Double { get }
+}
 
+class SearchCell: UITableViewCell {
     static let identifier = "SearchCell"
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupConstraints()
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-          super.init(style: style, reuseIdentifier: reuseIdentifier)
-         setupUI()
-      }
-      
-      required init?(coder aDecoder: NSCoder) {
-          super.init(coder: aDecoder)
-          setupUI()
-      }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        moviePoster.image = nil
-        titleLabel.text = nil
-    }
-    
+        
+    // MARK: - UI Elements
     let moviePoster: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .blue
@@ -47,7 +33,6 @@ class SearchCell: UITableViewCell {
     private let star: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 16
-        image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
         image.image = UIImage(systemName: "star.fill")
@@ -59,7 +44,6 @@ class SearchCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-       // label.font = UIFont.systemFont(ofSize: 12)
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.text = "This is title"
         label.textColor = .black
@@ -99,6 +83,25 @@ class SearchCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Initialization
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+          super.init(style: style, reuseIdentifier: reuseIdentifier)
+         setupUI()
+      }
+      
+      required init?(coder aDecoder: NSCoder) {
+          super.init(coder: aDecoder)
+          setupUI()
+      }
+    
+    // MARK: - Lifecycle Methods
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        moviePoster.image = nil
+        titleLabel.text = nil
+    }
+   
+    // MARK: - UI Configuration
     func setupUI() {
         addSubview(moviePoster)
         addSubview(titleLabel)
@@ -109,6 +112,7 @@ class SearchCell: UITableViewCell {
         setupConstraints()
     }
     
+    //MARK: -Constraints
     func setupConstraints() {
         moviePoster.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(12)
@@ -121,6 +125,7 @@ class SearchCell: UITableViewCell {
             make.left.equalTo(moviePoster.snp.right).offset(12)
             make.top.equalToSuperview().inset(10)
             make.height.equalTo(16)
+            make.width.equalTo(240)
         }
         
         star.snp.makeConstraints { make in
@@ -148,5 +153,13 @@ class SearchCell: UITableViewCell {
             make.height.equalTo(80)
             make.width.equalTo(240)
         }
+    }
+    
+    // MARK: - Cell Configuration
+    func configureCell(data: SearchCellProtocol) {
+        self.titleLabel.text = data.movieTitle
+        self.imdbLabel.text = String(data.imdbScore)
+        self.overviewLabel.text = data.overviewText
+        self.moviePoster.loadImage(url: data.imagee)
     }
 }

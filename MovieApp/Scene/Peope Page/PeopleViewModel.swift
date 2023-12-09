@@ -8,7 +8,6 @@
 import Foundation
 
 class PeopleViewModel {
-    
     var items = [PeopleListResult]()
     var success: (() -> Void)?
     var error: ((String) -> Void)?

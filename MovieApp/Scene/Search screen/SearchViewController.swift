@@ -9,14 +9,15 @@ import UIKit
 import SnapKit
 
 class SearchViewController: UIViewController {
+    let viewModel = SearchViewModel()
 
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
-        view.backgroundColor = .white
-        
+        configureUI()        
     }
     
+    // MARK: - UI Elements
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.dataSource = self
@@ -31,13 +32,30 @@ class SearchViewController: UIViewController {
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 16
         textField.backgroundColor = .systemGray4
+        textField.addTarget(self, action: #selector(searchFieldDidChange), for: .editingChanged)
         return textField
     }()
     
+    @objc private func searchFieldDidChange(_ textField: UITextField) {
+        if let searchText = textField.text {
+            viewModel.filterItemsForSearch(with: searchText)
+            viewModel.success = { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+    // MARK: - UI Configuration
     func configureUI() {
+        view.backgroundColor = .white
         title = "Search"
         view.addSubview(tableView)
         view.addSubview(searchField)
+        setupConstraints()
+    }
+    
+    // MARK: - Constraints
+    func setupConstraints() {
         tableView.snp.makeConstraints { make in
             make.bottom.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(172)
@@ -52,21 +70,24 @@ class SearchViewController: UIViewController {
     }
 }
 
+
+    //MARK: -Table View Data Source methods
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        viewModel.results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as! SearchCell
-        cell.moviePoster.image = UIImage(named: "HomeTabItem")
+        cell.configureCell(data: viewModel.results[indexPath.row])
         return cell
     }
 }
 
+    //MARK: -Table View Delegate methods
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

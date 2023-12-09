@@ -10,6 +10,7 @@ import Foundation
 class SearchViewModel {
     var success: (() -> Void)?
     var error: ((String) -> Void)?
+    var results = [MovieResult]()
     
     func getPeopleList(movieKey: String) {
         
@@ -18,16 +19,19 @@ class SearchViewModel {
         NetworkManager.request(
             model: Movie.self,
             endpoint: Endpoints.searchMoviesEndpoint.rawValue,
-            parameters: param
-        )
+            parameters: param )
         {
             data, error in
             if let error {
                 self.error? (error)
             }else if let data {
-               // self.items = data.results ?? []
+                self.results = data.results ?? []
                 self.success?()
             }
         }
+    }
+    
+    func filterItemsForSearch(with searchText: String) {
+        getPeopleList(movieKey: searchText)
     }
 }

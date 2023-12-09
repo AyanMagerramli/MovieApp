@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		111D38762B1E114B00A79C76 /* TopImageBottomLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111D38752B1E114B00A79C76 /* TopImageBottomLabelCell.swift */; };
-		111F4BF82B225F4D00934A76 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F4BF72B225F4D00934A76 /* NavigationController.swift */; };
 		1125D0F32B2227CC009A8EA9 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1125D0F22B2227CC009A8EA9 /* NetworkHelper.swift */; };
 		1179A87D2B1B25FA00FDA2C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1179A87C2B1B25FA00FDA2C2 /* AppDelegate.swift */; };
 		1179A8862B1B25FC00FDA2C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1179A8852B1B25FC00FDA2C2 /* Assets.xcassets */; };
@@ -29,7 +28,6 @@
 		117AE7F42B23733000491FE6 /* PeopleResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7F32B23733000491FE6 /* PeopleResponseModel.swift */; };
 		117AE7F72B245D8800491FE6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7F62B245D8800491FE6 /* SearchViewController.swift */; };
 		117AE7F92B245DC600491FE6 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7F82B245DC600491FE6 /* SearchCell.swift */; };
-		117AE7FB2B245DD900491FE6 /* SearchResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7FA2B245DD900491FE6 /* SearchResponseModel.swift */; };
 		117AE7FD2B245DEE00491FE6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7FC2B245DEE00491FE6 /* SearchViewModel.swift */; };
 		117F77C92B22399C003629A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117F77C82B22399C003629A2 /* Extensions.swift */; };
 		11EEE9392B22541B0065D8DC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EEE9382B22541B0065D8DC /* TabBarViewController.swift */; };
@@ -37,7 +35,6 @@
 
 /* Begin PBXFileReference section */
 		111D38752B1E114B00A79C76 /* TopImageBottomLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopImageBottomLabelCell.swift; sourceTree = "<group>"; };
-		111F4BF72B225F4D00934A76 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		1125D0F22B2227CC009A8EA9 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		1179A8792B1B25FA00FDA2C2 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1179A87C2B1B25FA00FDA2C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +52,6 @@
 		117AE7F32B23733000491FE6 /* PeopleResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleResponseModel.swift; sourceTree = "<group>"; };
 		117AE7F62B245D8800491FE6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		117AE7F82B245DC600491FE6 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
-		117AE7FA2B245DD900491FE6 /* SearchResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponseModel.swift; sourceTree = "<group>"; };
 		117AE7FC2B245DEE00491FE6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		117F77C82B22399C003629A2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		11EEE9382B22541B0065D8DC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -77,14 +73,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		111F4BF62B225F3400934A76 /* Navigation */ = {
-			isa = PBXGroup;
-			children = (
-				111F4BF72B225F4D00934A76 /* NavigationController.swift */,
-			);
-			path = Navigation;
-			sourceTree = "<group>";
-		};
 		11535B422B1F9986006955CC /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,9 +102,6 @@
 		1179A87B2B1B25FA00FDA2C2 /* MovieApp */ = {
 			isa = PBXGroup;
 			children = (
-				117AE7F52B245D6900491FE6 /* Search screen */,
-				117AE7EE2B2369D200491FE6 /* Peope Page */,
-				111F4BF62B225F3400934A76 /* Navigation */,
 				1179A8902B1B29AD00FDA2C2 /* SceneDelegate.swift */,
 				1179A87C2B1B25FA00FDA2C2 /* AppDelegate.swift */,
 				1179A8852B1B25FC00FDA2C2 /* Assets.xcassets */,
@@ -154,7 +139,6 @@
 		117AE7F52B245D6900491FE6 /* Search screen */ = {
 			isa = PBXGroup;
 			children = (
-				117AE7FA2B245DD900491FE6 /* SearchResponseModel.swift */,
 				117AE7F62B245D8800491FE6 /* SearchViewController.swift */,
 				117AE7FC2B245DEE00491FE6 /* SearchViewModel.swift */,
 				117AE7F82B245DC600491FE6 /* SearchCell.swift */,
@@ -190,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				1179A8962B1B2D9100FDA2C2 /* Home Page */,
+				117AE7F52B245D6900491FE6 /* Search screen */,
+				117AE7EE2B2369D200491FE6 /* Peope Page */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -295,11 +281,9 @@
 				1179A8982B1B2DAE00FDA2C2 /* NetworkManager.swift in Sources */,
 				1179A89F2B1B369000FDA2C2 /* Endpoints.swift in Sources */,
 				117AE7F42B23733000491FE6 /* PeopleResponseModel.swift in Sources */,
-				111F4BF82B225F4D00934A76 /* NavigationController.swift in Sources */,
 				1179A8932B1B2D1D00FDA2C2 /* HomeViewController.swift in Sources */,
 				117AE7F92B245DC600491FE6 /* SearchCell.swift in Sources */,
 				1179A8952B1B2D6700FDA2C2 /* HomeViewModel.swift in Sources */,
-				117AE7FB2B245DD900491FE6 /* SearchResponseModel.swift in Sources */,
 				117F77C92B22399C003629A2 /* Extensions.swift in Sources */,
 				117AE7F22B236A3D00491FE6 /* PeopleViewModel.swift in Sources */,
 				1179A89D2B1B2E4300FDA2C2 /* HomeResponseModel.swift in Sources */,

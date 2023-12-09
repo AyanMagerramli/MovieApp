@@ -11,27 +11,42 @@ import SnapKit
 final class HomeViewController: UIViewController {
     let viewModel = HomeViewModel()
     
+    //MARK: - Lifecycle methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+        configureViewModel()
+    }
+
+    //MARK: - UI Elements
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collection.translatesAutoresizingMaskIntoConstraints = false
+        title = "Movies"
         collection.dataSource = self
         collection.delegate = self
         collection.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.identifier)
         collection.backgroundColor = .white
-        title = "Movies"
         return collection
     }()
     
-//    private let menuButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setImage(UIImage(named: "menuFilters"), for: .normal)
-//        button.backgroundColor = .white
-//        return button
-//    }
+    //MARK: - UI Configuration
+    private func configureUI() {
+        view.addSubview(collectionView)
+        view.backgroundColor = .white
+        setupConstraints()
+        setupNavigationBarButtons()
+    }
     
+    //MARK: - Constraints
+    private func setupConstraints() {
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    //MARK: - View Model Configuration
     fileprivate func configureViewModel() {
         viewModel.getMovies()
         viewModel.success = { [weak self] in
@@ -39,35 +54,7 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
-        setupNavigationBarButtons()
-        configureViewModel()
-    }
-
-    private func configureUI() {
-        view.addSubview(collectionView)
-        //view.addSubview(menuButton())
-        view.backgroundColor = .white
-        
-        collectionView.snp.makeConstraints { make in
-            make.bottom.top.left.right.equalToSuperview().inset(0)
-            
-        }
-    }
-
-    
-    @objc func searchButtonTapped() {
-       let controller = SearchViewController()
-        navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    @objc func menuFilterButtonTapped () {
-        print("Menu filter button has been tapped")
-    }
-    
+    //MARK: - Setup Navigation Bar Button Items
     func setupNavigationBarButtons() {
         let searchButton = UIBarButtonItem(
             image: UIImage(named: "searchAction"),
@@ -83,9 +70,18 @@ final class HomeViewController: UIViewController {
            action: #selector(menuFilterButtonTapped))
         navigationItem.leftBarButtonItem = menuFilterButton
     }
+    
+    @objc func searchButtonTapped() {
+       let controller = SearchViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func menuFilterButtonTapped () {
+        print("Menu filter button has been tapped")
+    }
 }
 
-//MARK: -Data Source methods
+    //MARK: -Data Source methods
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.results.count
@@ -100,7 +96,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
     
-//MARK: -Delegate Methods
+    //MARK: -Delegate Methods
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

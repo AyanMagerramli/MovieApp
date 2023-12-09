@@ -9,20 +9,20 @@ import UIKit
 import SnapKit
 
 class HomeCell: UICollectionViewCell {
-    
     static let identifier = "HomeCell"
     var movies = [MovieResult]()
 
+    //MARK: - Lifecycle methods
     override init(frame: CGRect) {
          super.init(frame: frame)
         configureUI()
-        setupConstraints()
      }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: UI Elements
     private let titleLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,20 +42,22 @@ class HomeCell: UICollectionViewCell {
         collection.delegate = self
         collection.register(TopImageBottomLabelCell.self, forCellWithReuseIdentifier: TopImageBottomLabelCell.identifier)
         collection.backgroundColor = .white
+        collection.showsHorizontalScrollIndicator = false
         return collection
     }()
     
+    //MARK: - UI Configuration
     private func configureUI() {
         contentView.addSubview(collectionView)
         contentView.addSubview(titleLabel)
-        collectionView.showsHorizontalScrollIndicator = false
-       // collectionView.frame = contentView.bounds
+        setupConstraints()
     }
     
+    //MARK: - Constraints
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(390)
+            make.bottom.equalToSuperview().inset(16)
         }
         titleLabel.snp.makeConstraints { make in 
             make.bottom.equalTo(collectionView.snp.top).offset(-16)
@@ -63,6 +65,7 @@ class HomeCell: UICollectionViewCell {
         }
     }
     
+    //MARK: - Cell Data Configuration
     func configureCell(title: String, movies: [MovieResult]) {
         titleLabel.text = title
         self.movies = movies
@@ -70,6 +73,7 @@ class HomeCell: UICollectionViewCell {
     }
 }
 
+    //MARK: - Collection View Data Source methods
 extension HomeCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         movies.count
@@ -84,10 +88,10 @@ extension HomeCell: UICollectionViewDataSource {
     }
 }
 
-
+    //MARK: - Collection View Delegate methods
 extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        collectionView.deselectItem(at: indexPath, animated: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

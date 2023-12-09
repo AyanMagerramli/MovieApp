@@ -65,10 +65,6 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         image.snp.makeConstraints { make in
             make.top.bottom.left.right.equalToSuperview().inset(16)
         }
-//        
-//        titleLabel.snp.makeConstraints {
-//            $0.bottom.equalTo(snp_bottomMargin).offset(8)
-//        }
     }
   
 //MARK: - CELL data configure method

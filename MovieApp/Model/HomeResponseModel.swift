@@ -30,7 +30,7 @@ struct MovieResult: Codable, HomeCellProtocol, SearchCellProtocol {
     }
     
     var imagee: String {
-        "\(NetworkHelper.imagePath)\(posterPath ?? "")"
+        posterPath ?? ""
     }
     
     var overviewText: String {
@@ -48,7 +48,7 @@ struct MovieResult: Codable, HomeCellProtocol, SearchCellProtocol {
     }
     
     var img: String {
-        "\(NetworkHelper.imagePath)\(posterPath ?? "")"
+        posterPath ?? ""
     }
     
     let adult: Bool?

@@ -93,7 +93,7 @@ class SearchViewController: UIViewController {
         }
         
         searchIcon.snp.makeConstraints { make in
-            make.top.bottom.left.equalToSuperview().inset(12)
+            make.top.bottom.left.equalToSuperview().inset(14)
             make.height.equalTo(22)
             make.width.equalTo(22)
         }

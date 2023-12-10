@@ -30,7 +30,7 @@
 		117AE7F92B245DC600491FE6 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7F82B245DC600491FE6 /* SearchCell.swift */; };
 		117AE7FD2B245DEE00491FE6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117AE7FC2B245DEE00491FE6 /* SearchViewModel.swift */; };
 		117F77C92B22399C003629A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117F77C82B22399C003629A2 /* Extensions.swift */; };
-		11EEE9392B22541B0065D8DC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EEE9382B22541B0065D8DC /* TabBarViewController.swift */; };
+		11EEE9392B22541B0065D8DC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EEE9382B22541B0065D8DC /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,7 +54,7 @@
 		117AE7F82B245DC600491FE6 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		117AE7FC2B245DEE00491FE6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		117F77C82B22399C003629A2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		11EEE9382B22541B0065D8DC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		11EEE9382B22541B0065D8DC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,7 +183,7 @@
 		11EEE93A2B2254280065D8DC /* Tab bar */ = {
 			isa = PBXGroup;
 			children = (
-				11EEE9382B22541B0065D8DC /* TabBarViewController.swift */,
+				11EEE9382B22541B0065D8DC /* TabBarController.swift */,
 			);
 			path = "Tab bar";
 			sourceTree = "<group>";
@@ -276,7 +276,7 @@
 				1125D0F32B2227CC009A8EA9 /* NetworkHelper.swift in Sources */,
 				111D38762B1E114B00A79C76 /* TopImageBottomLabelCell.swift in Sources */,
 				117AE7FD2B245DEE00491FE6 /* SearchViewModel.swift in Sources */,
-				11EEE9392B22541B0065D8DC /* TabBarViewController.swift in Sources */,
+				11EEE9392B22541B0065D8DC /* TabBarController.swift in Sources */,
 				1179A8A12B1CB7B400FDA2C2 /* HomeCell.swift in Sources */,
 				1179A8982B1B2DAE00FDA2C2 /* NetworkManager.swift in Sources */,
 				1179A89F2B1B369000FDA2C2 /* Endpoints.swift in Sources */,

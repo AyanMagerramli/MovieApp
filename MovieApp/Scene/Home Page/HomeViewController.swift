@@ -55,7 +55,7 @@ final class HomeViewController: UIViewController {
     }
     
     //MARK: - Setup Navigation Bar Button Items
-    func setupNavigationBarButtons() {
+   private func setupNavigationBarButtons() {
         let searchButton = UIBarButtonItem(
             image: UIImage(named: "searchAction"),
             style: .plain,

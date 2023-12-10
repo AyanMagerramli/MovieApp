@@ -44,7 +44,7 @@ class SearchCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "This is title"
         label.textColor = .black
         label.numberOfLines = 0
@@ -102,7 +102,7 @@ class SearchCell: UITableViewCell {
     }
    
     // MARK: - UI Configuration
-    func setupUI() {
+   private func setupUI() {
         addSubview(moviePoster)
         addSubview(titleLabel)
         addSubview(star)
@@ -113,7 +113,7 @@ class SearchCell: UITableViewCell {
     }
     
     //MARK: -Constraints
-    func setupConstraints() {
+   private func setupConstraints() {
         moviePoster.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
@@ -124,7 +124,7 @@ class SearchCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(moviePoster.snp.right).offset(12)
             make.top.equalToSuperview().inset(10)
-            make.height.equalTo(16)
+            make.height.equalTo(18)
             make.width.equalTo(240)
         }
         

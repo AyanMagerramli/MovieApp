@@ -63,7 +63,7 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
-    func configureUI() {
+   private func configureUI() {
         view.backgroundColor = .white
         title = "Search"
         view.addSubview(tableView)
@@ -74,7 +74,7 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - Constraints
-    func setupConstraints() {
+   private func setupConstraints() {
         tableView.snp.makeConstraints { make in
             make.bottom.left.right.equalToSuperview()
             make.top.equalToSuperview().offset(172)

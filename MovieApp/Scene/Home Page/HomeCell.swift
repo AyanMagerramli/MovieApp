@@ -46,10 +46,20 @@ class HomeCell: UICollectionViewCell {
         return collection
     }()
     
+    private let seeAllButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("See all >", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.backgroundColor = .white
+        return button
+    }()
+    
     //MARK: - UI Configuration
     private func configureUI() {
         contentView.addSubview(collectionView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(seeAllButton)
         setupConstraints()
     }
     
@@ -59,9 +69,15 @@ class HomeCell: UICollectionViewCell {
             make.top.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(30)
         }
-        titleLabel.snp.makeConstraints { make in 
+        
+        titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(collectionView.snp.top).offset(4)
             make.left.equalToSuperview().inset(34)
+        }
+        
+        seeAllButton.snp.makeConstraints { make in
+            make.bottom.equalTo(collectionView.snp.top).offset(4)
+            make.right.equalToSuperview().inset(34)
         }
     }
     
@@ -95,7 +111,7 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 180, height: collectionView.frame.height)
+        .init(width: collectionView.frame.width/2-20, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -103,7 +119,7 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        10
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

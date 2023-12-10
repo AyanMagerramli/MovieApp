@@ -33,7 +33,6 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
-       // image.frame = .init(x: 0, y: 0, width: 167, height: 240)
         image.clipsToBounds = true
         return image
     }()

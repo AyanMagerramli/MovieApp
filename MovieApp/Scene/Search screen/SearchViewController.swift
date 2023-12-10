@@ -24,7 +24,24 @@ class SearchViewController: UIViewController {
         table.delegate = self
         table.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
         table.backgroundColor = .white
+        table.separatorColor = .white
         return table
+    }()
+    
+    private let searchView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4
+        view.layer.cornerRadius = 16
+        return view
+    }()
+    
+    private let searchIcon: UIImageView = {
+        let icon = UIImageView()
+        icon.image = UIImage(named: "searchAction")
+        icon.layer.masksToBounds = true
+        icon.contentMode = .scaleAspectFill
+        icon.clipsToBounds = true
+        return icon
     }()
     
     private let searchField: UITextField = {
@@ -50,7 +67,9 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .white
         title = "Search"
         view.addSubview(tableView)
-        view.addSubview(searchField)
+        view.addSubview(searchView)
+        searchView.addSubview(searchField)
+        searchView.addSubview(searchIcon)
         setupConstraints()
     }
     
@@ -61,11 +80,22 @@ class SearchViewController: UIViewController {
             make.top.equalToSuperview().offset(172)
         }
         
-        searchField.snp.makeConstraints { make in
+        searchView.snp.makeConstraints { make in
             make.bottom.equalTo(tableView.snp.top).offset(-12)
             make.left.equalTo(view.safeAreaInsets.left).offset(12)
             make.right.equalTo(view.safeAreaInsets.right).offset(-12)
             make.size.height.equalTo(50)
+        }
+        
+        searchField.snp.makeConstraints { make in
+            make.top.bottom.right.equalToSuperview()
+            make.left.equalToSuperview().inset(50)
+        }
+        
+        searchIcon.snp.makeConstraints { make in
+            make.top.bottom.left.equalToSuperview().inset(12)
+            make.height.equalTo(22)
+            make.width.equalTo(22)
         }
     }
 }

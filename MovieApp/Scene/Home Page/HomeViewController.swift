@@ -114,7 +114,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
         10
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        10
     }
 }
 

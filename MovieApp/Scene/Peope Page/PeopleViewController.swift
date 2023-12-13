@@ -9,6 +9,7 @@ import UIKit
 
 class PeopleViewController: UIViewController {
     let viewModel = PeopleViewModel()
+    weak var coordinator: MainCoordinator?
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {

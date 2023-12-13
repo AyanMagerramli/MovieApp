@@ -10,6 +10,7 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     let viewModel = SearchViewModel()
+    weak var coordinator: MainCoordinator?
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {

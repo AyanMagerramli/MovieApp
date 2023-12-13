@@ -10,6 +10,7 @@ import SnapKit
 
 final class HomeViewController: UIViewController {
     let viewModel = HomeViewModel()
+    var coordinator: MainCoordinator?
     
     //MARK: - Lifecycle methods
     override func viewDidLoad() {
@@ -22,6 +23,9 @@ final class HomeViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         title = "Movies"
         collection.dataSource = self
@@ -72,8 +76,8 @@ final class HomeViewController: UIViewController {
     }
     
     @objc func searchButtonTapped() {
-       let controller = SearchViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        print("Coordinator: \(String(describing: coordinator))")
+        coordinator?.goToSearch()
     }
     
     @objc func menuFilterButtonTapped () {

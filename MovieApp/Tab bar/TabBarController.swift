@@ -10,12 +10,13 @@ import UIKit
 class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewCOntrollers()
+        setupViewControllers()
     }
     
-    func setupViewCOntrollers() {
+    func setupViewControllers() {
         let firstVC = HomeViewController()
         let homeNav = UINavigationController(rootViewController: firstVC)
+        firstVC.coordinator = MainCoordinator(navigationController: homeNav)        
         firstVC.tabBarItem.title = "Home"
         firstVC.tabBarItem.image = UIImage(named: "HomeTabItem")
         firstVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)

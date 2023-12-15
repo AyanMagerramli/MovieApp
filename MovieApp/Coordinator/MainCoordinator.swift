@@ -33,5 +33,11 @@ class MainCoordinator: Coordinator {
         navigationController.show(vc, sender: nil)
         //NOTE: pushViewController is depreciated
     }
+    
+    func goToMovieDetail() {
+        let vc = MovieDetailViewController()
+        vc.coordinator = self
+        navigationController.show(vc, sender: self)
+    }
 }
 

@@ -9,8 +9,11 @@ import UIKit
 import SnapKit
 
 class HomeCell: UICollectionViewCell {
+    
+    //MARK: Properties
     static let identifier = "HomeCell"
     var movies = [MovieResult]()
+    var coordinator: MainCoordinator?
 
     //MARK: - Lifecycle methods
     override init(frame: CGRect) {
@@ -107,7 +110,9 @@ extension HomeCell: UICollectionViewDataSource {
     //MARK: - Collection View Delegate methods
 extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
+        let controller = MovieDetailViewController()
+       // controller.viewModel = MovieDetailViewModel(movieID: )
+        //coordinator?.goToMovieDetail()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

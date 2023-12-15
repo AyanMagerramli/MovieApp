@@ -11,11 +11,16 @@ class MovieDetailViewModel {
     var items = [PeopleListResult]()
     var success: (() -> Void)?
     var error: ((String) -> Void)?
+    var movieID: Int
     
-    func getPeopleList() {
+    init (movieID: Int) {
+        self.movieID = movieID
+    }
+    
+    func getMovieDetail () {
         NetworkManager.request(
             model: People.self,
-            endpoint: Endpoints.popularPeople.rawValue)
+            endpoint: "\(Endpoints.movieDetailEndpoint.rawValue)\(movieID)")
         {
             data, error in
             if let error {

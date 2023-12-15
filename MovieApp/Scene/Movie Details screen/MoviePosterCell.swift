@@ -9,6 +9,10 @@ import UIKit
 
 class MoviePosterCell: UICollectionViewCell {
     
+    //MARK: Properties
+    
+    static let identifier = "MoviePosterCell"
+    
     //MARK: - UI Elements
     
     private let image: UIImageView = {

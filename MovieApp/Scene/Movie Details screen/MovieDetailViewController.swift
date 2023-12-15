@@ -10,17 +10,26 @@ import SnapKit
 
 class MovieDetailViewController: UIViewController {
     
+    //MARK: - Properties
+    
+    var viewModel = MovieDetailViewModel(movieID: 0)
+    weak var coordinator: MainCoordinator?
+    
     //MARK: - UI Elements
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        title = "Celebrities"
+        title = "Movie Detail"
         collection.backgroundColor = .white
         collection.dataSource = self
         collection.delegate = self
-        collection.register(MovieDetailCell.self, forCellWithReuseIdentifier: MovieDetailCell.identifier)
+        collection.register(MoviePosterCell.self, forCellWithReuseIdentifier: MoviePosterCell.identifier)
+        collection.register(MovieTitleCell.self, forCellWithReuseIdentifier: MovieTitleCell.identifier)
+        collection.register(MovieInfoCell.self, forCellWithReuseIdentifier: MovieInfoCell.identifier)
+        collection.register(MovieDescriptionCell.self, forCellWithReuseIdentifier: MovieDescriptionCell.identifier)
+        collection.register(CastCell.self, forCellWithReuseIdentifier: CastCell.identifier)
         return collection
     }()
     
@@ -29,7 +38,10 @@ class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        viewModel.getMovieDetail()
+        viewModel.success = { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
 }
 
@@ -37,7 +49,7 @@ class MovieDetailViewController: UIViewController {
 
 extension MovieDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        0
+        10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

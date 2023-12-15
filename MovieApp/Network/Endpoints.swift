@@ -14,4 +14,5 @@ enum Endpoints: String {
     case upcomingEndpoint = "movie/upcoming" 
     case popularPeople = "person/popular"
     case searchMoviesEndpoint = "search/movie?"
+    case movieDetailEndpoint = "movie/"
 }

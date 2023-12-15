@@ -10,6 +10,10 @@ import SnapKit
 
 class MovieDescriptionCell: UICollectionViewCell {
     
+    //MARK: Properties
+    
+    static let identifier = "MovieDescriptionCell"
+    
     //MARK: - UI Elements
     
     private let descriptionLabel: UILabel = {

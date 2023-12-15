@@ -200,6 +200,7 @@ class MovieDetailCell: UICollectionViewCell {
             
         }
     }
+    
     //MARK: - Lifecycle methods
     override init(frame: CGRect) {
          super.init(frame: frame)

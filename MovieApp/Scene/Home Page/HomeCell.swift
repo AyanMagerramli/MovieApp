@@ -8,14 +8,21 @@
 import UIKit
 import SnapKit
 
+protocol HomeCellDelegate {
+    func didSelectTopImageBottomLabelCell()
+}
+
 class HomeCell: UICollectionViewCell {
     
     //MARK: Properties
+   
     static let identifier = "HomeCell"
     var movies = [MovieResult]()
     var coordinator: MainCoordinator?
+    var delegate: HomeCellDelegate?
 
     //MARK: - Lifecycle methods
+    
     override init(frame: CGRect) {
          super.init(frame: frame)
         configureUI()
@@ -26,6 +33,7 @@ class HomeCell: UICollectionViewCell {
     }
     
     //MARK: UI Elements
+    
     private let titleLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +67,7 @@ class HomeCell: UICollectionViewCell {
     }()
     
     //MARK: - UI Configuration
+    
     private func configureUI() {
         contentView.addSubview(collectionView)
         contentView.addSubview(titleLabel)
@@ -67,6 +76,7 @@ class HomeCell: UICollectionViewCell {
     }
     
     //MARK: - Constraints
+    
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -85,6 +95,7 @@ class HomeCell: UICollectionViewCell {
     }
     
     //MARK: - Cell Data Configuration
+    
     func configureCell(title: String, movies: [MovieResult]) {
         titleLabel.text = title
         self.movies = movies
@@ -93,6 +104,7 @@ class HomeCell: UICollectionViewCell {
 }
 
     //MARK: - Collection View Data Source methods
+
 extension HomeCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         movies.count
@@ -108,10 +120,13 @@ extension HomeCell: UICollectionViewDataSource {
 }
 
     //MARK: - Collection View Delegate methods
+
 extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectTopImageBottomLabelCell()
         let controller = MovieDetailViewController()
-       // controller.viewModel = MovieDetailViewModel(movieID: )
+        controller.viewModel = MovieDetailViewModel(movieID: indexPath.item)
+        print("MOVIEEE ID IS \(indexPath.item)")
         //coordinator?.goToMovieDetail()
     }
     

@@ -8,7 +8,8 @@
 import Foundation
 
 class PeopleManager: PeopleListUseCase {
-    func getPeopleList(endpoint: Endpoints, completion: @escaping ((People?, String?) -> Void)) {
-        NetworkManager.request(model: People.self, endpoint: endpoint.rawValue, completion: completion)
+    func getPeopleList(pageNumber: Int, completion: @escaping ((People?, String?) -> Void)) {
+        let url = Endpoints.popularPeople.rawValue + "?page=\(pageNumber)"
+        NetworkManager.request(model: People.self, endpoint: url, completion: completion)
     }
 }

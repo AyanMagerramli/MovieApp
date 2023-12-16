@@ -6,6 +6,10 @@
 //
 
 import UIKit
+//MARK: -CELL Data Configure Protocol
+protocol MoviePosterCellProtocol {
+    var image: String {get}
+}
 
 class MoviePosterCell: UICollectionViewCell {
     
@@ -15,7 +19,7 @@ class MoviePosterCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     
-    private let image: UIImageView = {
+     let image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         return image
@@ -37,5 +41,12 @@ class MoviePosterCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Cell data configure
+    
+    func configureCell(data: String) {
+        print("Poster Path: \(data)")
+        image.loadImage(url: data)
     }
 }

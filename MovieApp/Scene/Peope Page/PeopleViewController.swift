@@ -10,6 +10,7 @@ import UIKit
 class PeopleViewController: UIViewController {
     let viewModel = PeopleViewModel()
     weak var coordinator: MainCoordinator?
+    let refreshControl = UIRefreshControl()
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -35,6 +36,15 @@ class PeopleViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         setupConstraints()
+        
+        refreshControl.addTarget(self, action: #selector(pullToRequest), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc func pullToRequest() {
+        viewModel.reset()
+        collectionView.reloadData()
+        viewModel.getPeopleList()
     }
     
     //MARK: - View Model Configuration
@@ -42,6 +52,7 @@ class PeopleViewController: UIViewController {
         viewModel.getPeopleList()
         viewModel.success = { [weak self] in
             self?.collectionView.reloadData()
+            self?.refreshControl.endRefreshing()
         }
     }
     
@@ -80,6 +91,10 @@ extension PeopleViewController: UICollectionViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         .init(top: 0, left: 12, bottom: 0, right: 12)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.makePagination(index: indexPath.item)
     }
 }
 

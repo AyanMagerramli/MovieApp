@@ -8,11 +8,19 @@
 import UIKit
 import SnapKit
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController, HomeCellDelegate {
+    
+    //MARK: Properties
+    
     let viewModel = HomeViewModel()
     var coordinator: MainCoordinator?
     
+    func didSelectTopImageBottomLabelCell() {
+        coordinator?.goToMovieDetail()
+    }
+    
     //MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -20,6 +28,7 @@ final class HomeViewController: UIViewController {
     }
 
     //MARK: - UI Elements
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -93,6 +102,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
+        cell.delegate = self
         let item = viewModel.results[indexPath.row]
         cell.configureCell(title: item.title, movies: item.movies)
         cell.backgroundColor = .white

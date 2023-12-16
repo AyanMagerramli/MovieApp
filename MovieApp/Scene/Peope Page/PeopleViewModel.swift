@@ -10,8 +10,10 @@ import Foundation
 class PeopleViewModel {
     private let manager = PeopleManager()
     var items = [PeopleListResult]()
+    var peopleData: People?
     var success: (() -> Void)?
     var error: ((String) -> Void)?
+    
     
 //    func getPeopleList() {
 //        NetworkManager.request(
@@ -28,14 +30,26 @@ class PeopleViewModel {
 //        }
 //    }
     func getPeopleList() {
-        manager.getPeopleList(endpoint: Endpoints.popularPeople) { data, error in
+        manager.getPeopleList(pageNumber: (peopleData?.totalPages ?? 0) + 1) { data, error in
             if let error {
                 self.error? (error)
             } else if let data {
-                self.items = data.results ?? []
+                self.peopleData = data
+                self.items.append(contentsOf: data.results ?? [])
                 self.success? ()
             }
         }
+    }
+    
+    func makePagination(index: Int) {
+        if index == items.count-1 && (peopleData?.page ?? 0 <= peopleData?.totalPages ?? 0) {
+            getPeopleList()
+        }
+    }
+    
+    func reset() {
+        peopleData = nil
+        items.removeAll()
     }
 }
 

@@ -28,8 +28,7 @@ class GenresCell: UICollectionViewCell {
     
     private func setupConstraints() {
         label.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(2)
-            make.leading.equalToSuperview().inset(2)
+            make.center.equalToSuperview()
         }
     }
     

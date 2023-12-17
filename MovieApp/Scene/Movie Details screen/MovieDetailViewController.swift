@@ -50,7 +50,6 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        viewModel.getDetail()
         print(viewModel.items)
 //        viewModel.success = { [weak self] in
 //            self?.collectionView.reloadData()
@@ -62,8 +61,8 @@ class MovieDetailViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
-        viewModel.success = { [weak self] in
-            self?.collectionView.reloadData()
+        viewModel.getDetail {
+            self.collectionView.reloadData()
         }
     }
 }
@@ -100,6 +99,8 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             
         case .info(let movieInfo):
             let infoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
+            infoCell.viewModel = self.viewModel
+         //   infoCell.movieID = self.mo
             if let movieInfo {
                 infoCell.configureCell(data: movieInfo)
             }

@@ -39,7 +39,7 @@ class MovieDetailViewModel {
         self.movieID = movieID
     }
     
-    func getDetail() {
+    func getDetail(completion: @escaping () -> Void) {
         manager.getMovieDetail(movieID: self.movieID) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
@@ -54,10 +54,28 @@ class MovieDetailViewModel {
                     rating: data.voteAverage ?? 0))))
                 self.items.append(.init(type: .cast(data.originalTitle)))
                 self.success?()
+                
+                completion()
             }
         }
     }
     
+    
+    func getGenres(completion: @escaping ([Genre]) -> Void) {
+        var genres: [Genre] = []
+        getDetail {
+            for item in self.items {
+                switch item.type {
+                case .info(let infoModel):
+                    genres.append(contentsOf: infoModel?.genres ?? [])
+                default:
+                    break
+                }
+            }
+            completion(genres)
+        }
+    }
+   
     func getCast() {
     }
 }

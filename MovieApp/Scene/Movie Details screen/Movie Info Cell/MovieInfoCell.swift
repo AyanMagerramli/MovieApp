@@ -13,6 +13,19 @@ class MovieInfoCell: UICollectionViewCell {
     //MARK: Properties
     
     static let identifier = "MovieInfoCell"
+    var genres: [Genre] = []
+    var movieID: Int?
+    var viewModel: MovieDetailViewModel
+    
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: CGRect.zero)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - UI Elements
     
@@ -195,19 +208,25 @@ class MovieInfoCell: UICollectionViewCell {
     //MARK: - Life Cycle
     
     override init(frame: CGRect) {
+        self.viewModel = MovieDetailViewModel(movieID: self.movieID ?? 28)
         super.init(frame: frame)
         setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+      
+            self.viewModel.getGenres { genres in
+                self.genresCollection.reloadData()
+                self.genres = genres
+            }
+
+        viewModel.getDetail {
+            self.genresCollection.reloadData()
+        }
     }
     
     //MARK: - Cell Data Configuration
     func configureCell(data: MovieInfoModel) {
         ratingLabel.text = "\(data.rating)"
-        rating2Point.text = "\(data.rating)"
-        durationLength.text = "\(data.length)"
+        rating2Point.text = "\(data.rating)/10 IMDB"
+        durationLength.text = "\(data.length) min"
         languageType.text = data.language
     }
 }
@@ -216,13 +235,14 @@ class MovieInfoCell: UICollectionViewCell {
 
 extension MovieInfoCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return genres.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenresCell.identifier, for: indexPath) as! GenresCell
         cell.backgroundColor = UIColor(named: "genreBackground")
         cell.layer.cornerRadius = 10
+        cell.configureCel(data: genres[indexPath.row].name ?? "")
         return cell
     }
 }

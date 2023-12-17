@@ -22,7 +22,7 @@ class MoviePosterCell: UICollectionViewCell {
      let image: UIImageView = {
         let image = UIImageView()
          image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
+         image.contentMode = .scaleToFill
         return image
     }()
     

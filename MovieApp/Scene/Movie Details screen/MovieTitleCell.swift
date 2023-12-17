@@ -51,10 +51,10 @@ class MovieTitleCell: UICollectionViewCell {
         }
         
         favoriteButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
+            make.top.equalToSuperview().inset(30)
             make.trailing.equalToSuperview().inset(29)
-            make.height.equalTo(14)
-            make.width.equalTo(16)
+            make.height.equalTo(18)
+            make.width.equalTo(18)
         }
     }
     

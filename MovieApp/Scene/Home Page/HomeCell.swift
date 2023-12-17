@@ -20,6 +20,7 @@ class HomeCell: UICollectionViewCell {
     var movies = [MovieResult]()
     var coordinator: MainCoordinator?
     var delegate: HomeCellDelegate?
+    var movieInfoViewModel: MovieDetailViewModel?
 
     //MARK: - Lifecycle methods
     

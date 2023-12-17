@@ -10,6 +10,8 @@ import SnapKit
 
 final class HomeViewController: UIViewController, HomeCellDelegate {
     
+    //Home Cell Delegate function
+    
     func didSelectTopImageBottomLabelCell(with movieID: Int) {
         coordinator?.goToMovieDetail(id: movieID)
     }
@@ -18,10 +20,6 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     
     let viewModel = HomeViewModel()
     var coordinator: MainCoordinator?
-    
-//    func didSelectTopImageBottomLabelCell() {
-//        coordinator?.goToMovieDetail()
-//    }
     
     //MARK: - Lifecycle methods
     

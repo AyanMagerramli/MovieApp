@@ -53,8 +53,6 @@ class MovieDetailViewModel {
                     length: data.runtime ?? 0,
                     rating: data.voteAverage ?? 0))))
                 self.items.append(.init(type: .cast(data.originalTitle)))
-                self.success?()
-                
                 completion()
             }
         }
@@ -77,6 +75,7 @@ class MovieDetailViewModel {
     }
    
     func getCast() {
+        
     }
 }
 

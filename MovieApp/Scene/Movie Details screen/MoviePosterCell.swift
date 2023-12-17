@@ -6,7 +6,9 @@
 //
 
 import UIKit
+
 //MARK: -CELL Data Configure Protocol
+
 protocol MoviePosterCellProtocol {
     var image: String {get}
 }

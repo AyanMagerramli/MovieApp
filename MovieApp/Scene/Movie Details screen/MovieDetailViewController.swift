@@ -14,6 +14,7 @@ class MovieDetailViewController: UIViewController {
     
     var viewModel: MovieDetailViewModel
     weak var coordinator: MainCoordinator?
+    var genres = [Genre]()
     
     //MARK: - UI Elements
     
@@ -48,12 +49,8 @@ class MovieDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         print(viewModel.items)
-//        viewModel.success = { [weak self] in
-//            self?.collectionView.reloadData()
-//        }
     }
     
     //MARK: - Configure UI
@@ -61,8 +58,11 @@ class MovieDetailViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
-        viewModel.getDetail {
+        
+        viewModel.getGenres { genres in
+            self.genres = genres
             self.collectionView.reloadData()
+            self.viewModel.success?()
         }
     }
 }
@@ -81,7 +81,6 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             
         case .poster(let posterPath):
            let posterCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviePosterCell.identifier, for: indexPath) as! MoviePosterCell
-//            let item = viewModel.items[indexPath.row]
             if let posterPath {
                 print("POSTER IS \(posterPath)")
                    posterCell.configureCell(data: posterPath)
@@ -99,7 +98,8 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             
         case .info(let movieInfo):
             let infoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
-            infoCell.viewModel = self.viewModel
+               infoCell.viewModel = self.viewModel
+            infoCell.genres = genres
          //   infoCell.movieID = self.mo
             if let movieInfo {
                 infoCell.configureCell(data: movieInfo)

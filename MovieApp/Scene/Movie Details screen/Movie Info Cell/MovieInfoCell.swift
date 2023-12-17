@@ -175,8 +175,6 @@ class MovieInfoCell: UICollectionViewCell {
     //MARK: - Constraints
     
     private func setupConstraints() {
-        
-        
         ratingStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(4)
             make.leading.equalToSuperview().inset(24)
@@ -208,16 +206,11 @@ class MovieInfoCell: UICollectionViewCell {
     //MARK: - Life Cycle
     
     override init(frame: CGRect) {
-        self.viewModel = MovieDetailViewModel(movieID: self.movieID ?? 28)
+       
+        self.viewModel = MovieDetailViewModel(movieID: self.movieID ?? 128)
         super.init(frame: frame)
         setupUI()
-      
-            self.viewModel.getGenres { genres in
-                self.genresCollection.reloadData()
-                self.genres = genres
-            }
-
-        viewModel.getDetail {
+        self.viewModel.success = {
             self.genresCollection.reloadData()
         }
     }

@@ -16,6 +16,17 @@ class MovieInfoCell: UICollectionViewCell {
     
     //MARK: - UI Elements
     
+    private lazy var genresCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collection.backgroundColor = .white
+        collection.dataSource = self
+        collection.delegate = self
+        collection.register(GenresCell.self, forCellWithReuseIdentifier: GenresCell.identifier)
+        return collection
+    }()
+    
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
@@ -151,13 +162,22 @@ class MovieInfoCell: UICollectionViewCell {
     //MARK: - Constraints
     
     private func setupConstraints() {
+        
+        
         ratingStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(4)
             make.leading.equalToSuperview().inset(24)
         }
         
-        generalStackView.snp.makeConstraints { make in
+        genresCollection.snp.makeConstraints { make in
             make.top.equalTo(ratingStackView.snp.bottom).offset(16)
+            make.leading.equalToSuperview().inset(24)
+            make.height.equalTo(22)
+            make.width.equalToSuperview()
+        }
+        
+        generalStackView.snp.makeConstraints { make in
+            make.top.equalTo(genresCollection.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(24)
         }
     }
@@ -166,6 +186,7 @@ class MovieInfoCell: UICollectionViewCell {
     
     private func setupUI() {
         setupStackView()
+        addSubview(genresCollection)
         addSubview(ratingStackView)
         addSubview(generalStackView)
         setupConstraints()
@@ -180,5 +201,40 @@ class MovieInfoCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Cell Data Configuration
+    func configureCell(data: MovieInfoModel) {
+        ratingLabel.text = "\(data.rating)"
+        rating2Point.text = "\(data.rating)"
+        durationLength.text = "\(data.length)"
+        languageType.text = data.language
+    }
+}
+
+    //MARK: - Data Source
+
+extension MovieInfoCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenresCell.identifier, for: indexPath) as! GenresCell
+        cell.backgroundColor = UIColor(named: "genreBackground")
+        cell.layer.cornerRadius = 10
+        return cell
+    }
+}
+
+    //MARK: - Delegate
+
+extension MovieInfoCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: 80, height: collectionView.frame.height-4)
     }
 }

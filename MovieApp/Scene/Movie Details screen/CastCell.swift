@@ -12,7 +12,7 @@ class CastCell: UICollectionViewCell {
     
     //MARK: Properties
     
-    static let identifier = "MovieDescriptionCell"
+    static let identifier = "CastCell"
     
     //MARK: - UI Elements
     
@@ -40,6 +40,7 @@ class CastCell: UICollectionViewCell {
         collection.dataSource = self
         collection.showsHorizontalScrollIndicator = false
         collection.register(TopImageBottomLabelCell.self, forCellWithReuseIdentifier: TopImageBottomLabelCell.identifier)
+        collection.backgroundColor = .blue
         return collection
     }()
     
@@ -60,6 +61,7 @@ class CastCell: UICollectionViewCell {
             make.top.equalTo(castLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(24)
             make.height.equalTo(120)
+            make.width.equalToSuperview()
         }
     }
     
@@ -69,6 +71,18 @@ class CastCell: UICollectionViewCell {
         addSubview(castLabel)
         addSubview(seeMoreButton)
         addSubview(castCollection)
+        setupConstraints()
+    }
+    
+    //MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -81,14 +95,19 @@ extension CastCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopImageBottomLabelCell.identifier, for: indexPath) as! TopImageBottomLabelCell
+        cell.backgroundColor = .white
         return cell
     }
 }
     
     //MARK: - Data Source
 
-extension CastCell: UICollectionViewDelegate {
+extension CastCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: 72, height: collectionView.frame.height-4)
     }
 }

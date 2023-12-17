@@ -67,4 +67,10 @@ class MovieDescriptionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Cell Data Configuration
+    
+    func configureCell(data: String) {
+        descriptionText.text = data
+    }
 }

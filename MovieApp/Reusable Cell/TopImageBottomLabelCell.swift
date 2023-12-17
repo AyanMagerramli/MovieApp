@@ -22,6 +22,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
      private let titleLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
+        label.text = "Tom Holland"
         label.textColor = .black
         label.numberOfLines = 0
         label.backgroundColor = .white
@@ -30,9 +31,10 @@ class TopImageBottomLabelCell: UICollectionViewCell {
    
      private let image: UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = 16
+        //image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
+         image.backgroundColor = .lightGray
         image.clipsToBounds = true
         return image
     }()

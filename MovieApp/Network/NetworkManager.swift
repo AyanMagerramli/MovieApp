@@ -26,10 +26,12 @@ class NetworkManager {
             response in
             switch response.result {
             case .success(let data):
+               
                 completion(data, nil)
             case .failure(let error):
                 completion(nil, error.localizedDescription)
             }
+            print ( " Ayan \(NetworkHelper.baseURL)\(endpoint ?? "")  " )
         }
     }
 }

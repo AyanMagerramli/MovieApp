@@ -34,8 +34,9 @@ class MainCoordinator: Coordinator {
         //NOTE: pushViewController is depreciated
     }
     
-    func goToMovieDetail() {
-        let vc = MovieDetailViewController()
+    func goToMovieDetail(id: Int) {
+        let viewModel = MovieDetailViewModel(movieID: id)
+        let vc = MovieDetailViewController(viewModel: viewModel)
         vc.coordinator = self
         navigationController.show(vc, sender: self)
     }

@@ -68,4 +68,10 @@ class MovieTitleCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Cell Data configuration
+    
+    func configureCell(data: String) {
+        titleLabel.text = data
+    }
 }

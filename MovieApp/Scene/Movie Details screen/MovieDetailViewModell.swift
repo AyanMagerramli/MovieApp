@@ -8,24 +8,23 @@
 import Foundation
 
 enum MovieDetailItemType {
-    case poster
-    case title
-    case info
-    case description
-    case cast
+    case poster (String?) //done
+    case title (String?) //done
+    case info (MovieInfoModel?) //done
+    case description (String?) //done
+    case cast (String?)
 }
 
 struct MovieDetailModel {
     let type: MovieDetailItemType
-    let data: Any
 }
 
 struct MovieInfoModel {
-    let rating: String
-    let genre: [Genre]
-    let length: String
+    let genres: [Genre]
     let language: String
-    let rating2: String
+    let length: Int
+    let rating: Double
+    // let rating2: String
 }
 
 class MovieDetailViewModel {
@@ -45,20 +44,37 @@ class MovieDetailViewModel {
             if let errorMessage {
                 self.error?(errorMessage)
             } else if let data {
-                self.items.append(.init(type: .poster, data: data.posterPath ?? ""))
-                self.items.append(.init(type: .title, data: data.originalTitle ?? ""))
-                self.items.append(.init(type: .info, data: MovieInfoModel(
-                    rating: "\(data.voteAverage ?? 0)/10 IMDB",
-                    genre: data.genres ?? [],
-                    length: "\(data.runtime ?? 0) min",
+                self.items.append(.init(type: .poster(data.posterPath)))
+                self.items.append(.init(type: .title(data.originalTitle)))
+                self.items.append(.init(type: .description(data.overview)))
+                self.items.append(.init(type: .info(MovieInfoModel(
+                    genres: data.genres ?? [],
                     language: data.originalLanguage ?? "",
-                    rating2: "\(data.popularity ?? 0)")))
+                    length: data.runtime ?? 0,
+                    rating: data.voteAverage ?? 0))))
+                self.items.append(.init(type: .cast(data.originalTitle)))
                 self.success?()
             }
         }
     }
-
+    
     func getCast() {
-        
     }
 }
+
+
+//enum MovieeLanguage: String {
+//    case ru
+//    case en
+//    
+//    var language: String {
+//        switch self {
+//            
+//        case .ru:
+//            return "Russian"
+//        case .en:
+//            return "English"
+//        }
+//    }
+//    
+//}

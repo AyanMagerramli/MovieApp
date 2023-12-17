@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol HomeCellDelegate {
-    func didSelectTopImageBottomLabelCell()
+    func didSelectTopImageBottomLabelCell(with movieID: Int)
 }
 
 class HomeCell: UICollectionViewCell {
@@ -115,6 +115,7 @@ extension HomeCell: UICollectionViewDataSource {
         cell.backgroundColor = .white
         cell.configureCell(data: movies[indexPath.row])
         cell.backgroundColor = .white
+        cell.layer.cornerRadius = 16
         return cell
     }
 }
@@ -123,11 +124,10 @@ extension HomeCell: UICollectionViewDataSource {
 
 extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didSelectTopImageBottomLabelCell()
-        let controller = MovieDetailViewController()
-        controller.viewModel = MovieDetailViewModel(movieID: indexPath.item)
-        print("MOVIEEE ID IS \(indexPath.item)")
-        //coordinator?.goToMovieDetail()
+        if let movieID = movies[indexPath.item].id {
+            print("ayannnnn \(movieID)")
+            delegate?.didSelectTopImageBottomLabelCell(with: movieID)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

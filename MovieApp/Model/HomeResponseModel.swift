@@ -7,7 +7,6 @@
 
 import Foundation
 
-
     // MARK: - Movie Response Model
 struct Movie: Codable {
     let page: Int?

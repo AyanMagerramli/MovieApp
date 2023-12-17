@@ -12,7 +12,7 @@ class MovieDetailViewController: UIViewController {
     
     //MARK: - Properties
     
-    var viewModel = MovieDetailViewModel(movieID: 0)
+    var viewModel: MovieDetailViewModel
     weak var coordinator: MainCoordinator?
     
     //MARK: - UI Elements
@@ -33,11 +33,22 @@ class MovieDetailViewController: UIViewController {
         return collection
     }()
     
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     //MARK: - Life cycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         viewModel.getDetail()
         print(viewModel.items)
@@ -68,27 +79,44 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         let item = viewModel.items[indexPath.item]
         var cell: UICollectionViewCell
         switch item.type {
-        case .poster:
+            
+        case .poster(let posterPath):
            let posterCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviePosterCell.identifier, for: indexPath) as! MoviePosterCell
-            let item = viewModel.items[indexPath.row]
-            if let posterPath = item.data as? String {
+//            let item = viewModel.items[indexPath.row]
+            if let posterPath {
                 print("POSTER IS \(posterPath)")
                    posterCell.configureCell(data: posterPath)
                }
-           // posterCell.configureCell(data: item.data)
             cell = posterCell
            return cell
-        case .title:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieTitleCell.identifier, for: indexPath) as! MovieTitleCell
+            
+        case .title(let title):
+          let titleCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieTitleCell.identifier, for: indexPath) as! MovieTitleCell
+            if let title {
+                titleCell.configureCell(data: title)
+            }
+            cell = titleCell
             return cell
-        case .info:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
+            
+        case .info(let movieInfo):
+            let infoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
+            if let movieInfo {
+                infoCell.configureCell(data: movieInfo)
+            }
+            cell = infoCell
             return cell
-        case .description:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieDescriptionCell.identifier, for: indexPath) as! MovieDescriptionCell
+            
+        case .description(let description):
+            let descriptionCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieDescriptionCell.identifier, for: indexPath) as! MovieDescriptionCell
+            if let description {
+                descriptionCell.configureCell(data: description)
+            }
+            cell = descriptionCell
             return cell
+            
         case .cast:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
+            let castCell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
+            cell = castCell
             return cell
         }
     }
@@ -102,6 +130,6 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 260)
+        .init(width: collectionView.frame.width, height: 300)
     }
 }

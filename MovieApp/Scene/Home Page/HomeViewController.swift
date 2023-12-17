@@ -10,14 +10,18 @@ import SnapKit
 
 final class HomeViewController: UIViewController, HomeCellDelegate {
     
+    func didSelectTopImageBottomLabelCell(with movieID: Int) {
+        coordinator?.goToMovieDetail(id: movieID)
+    }
+    
     //MARK: Properties
     
     let viewModel = HomeViewModel()
     var coordinator: MainCoordinator?
     
-    func didSelectTopImageBottomLabelCell() {
-        coordinator?.goToMovieDetail()
-    }
+//    func didSelectTopImageBottomLabelCell() {
+//        coordinator?.goToMovieDetail()
+//    }
     
     //MARK: - Lifecycle methods
     
@@ -112,10 +116,11 @@ extension HomeViewController: UICollectionViewDataSource {
     
     //MARK: -Delegate Methods
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let controller = MovieDetailViewController()
+//       // controller.viewModel = MovieDetailViewModel(movieID: movieID ?? 23898)
+//    }
+//    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 260)
     }

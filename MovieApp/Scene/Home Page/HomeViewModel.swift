@@ -8,6 +8,7 @@
 import Foundation
 
 struct HomeModel {
+    
     let title: String
     let movies: [MovieResult]
 }
@@ -15,7 +16,6 @@ struct HomeModel {
 class HomeViewModel {
     
     private let manager = HomeManager()
-    
     var results = [HomeModel]()
     var success: (() -> Void)?
     var error: ((String) -> Void)?
@@ -27,22 +27,6 @@ class HomeViewModel {
         getMovies(title: "Upcoming", endpoint: Endpoints.upcomingEndpoint)
     }
     
-//    func getMovies (title: String, endpoint: Endpoints) {
-//        NetworkManager.request(
-//            model: Movie.self,
-//            endpoint: endpoint.rawValue )
-//        {
-//            data, error in
-//            if let error {
-//                self.error? (error)
-//            } else {
-//                if let data = data {
-//                    self.results.append(.init(title: title, movies: data.results ?? []))
-//                    self.success?()
-//                }
-//            }
-//        }
-//    }
     func getMovies(title: String, endpoint: Endpoints) {
         manager.getMovieList(endpoint: endpoint) { data, errorMessage in
             if let errorMessage {

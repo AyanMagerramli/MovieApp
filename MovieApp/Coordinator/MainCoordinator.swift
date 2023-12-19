@@ -40,5 +40,11 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.show(vc, sender: self)
     }
+    
+    func goToCategory () {
+        let vc = CategoryViewController()
+        vc.coordinator = self
+        navigationController.show(vc, sender: nil)
+    }
 }
 

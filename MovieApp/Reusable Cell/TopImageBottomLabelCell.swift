@@ -17,9 +17,10 @@ protocol HomeCellProtocol {
 //MARK: -NestedCollectionCell within collection view in HomeCell
 class TopImageBottomLabelCell: UICollectionViewCell {
     static let identifier = "NestedCollectionCell"
+    var movies = [MovieResult]()
     var indexPath: IndexPath?
 
-     private let titleLabel = {
+      let titleLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.text = "Tom Holland"
@@ -31,7 +32,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
    
      private let image: UIImageView = {
         let image = UIImageView()
-        //image.layer.cornerRadius = 16
+        image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
          image.backgroundColor = .lightGray
@@ -61,6 +62,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(image.snp_bottomMargin).offset(10)
             make.leading.equalToSuperview().inset(12)
+            make.width.equalTo(200)
         }
         
         image.snp.makeConstraints { make in

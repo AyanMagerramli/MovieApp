@@ -15,6 +15,7 @@ class MovieDetailViewController: UIViewController {
     var viewModel: MovieDetailViewModel
     weak var coordinator: MainCoordinator?
     var genres = [Genre]()
+    var cast = [PeopleListResult]()
     
     //MARK: - UI Elements
     
@@ -64,6 +65,11 @@ class MovieDetailViewController: UIViewController {
             self.collectionView.reloadData()
             self.viewModel.success?()
         }
+        
+//        viewModel.getCastMembers { castMembers in
+//            self.cast = castMembers
+//            self.collectionView.reloadData()
+//        }
     }
 }
 
@@ -117,6 +123,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             
         case .cast:
             let castCell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
+            castCell.cast = cast
             cell = castCell
             return cell
         }

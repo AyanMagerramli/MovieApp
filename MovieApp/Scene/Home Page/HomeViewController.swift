@@ -8,18 +8,26 @@
 import UIKit
 import SnapKit
 
-final class HomeViewController: UIViewController, HomeCellDelegate {
+final class HomeViewController: UIViewController, HomeCellDelegate, UINavigationControllerDelegate {
     
+    // See All Button Delegate function
+    
+    func didSeeAllButtonTapped(with title: String) {
+        coordinator?.goToCategory()
+        categoryTitle = title
+    }
+
     //Home Cell Delegate function
     
-    func didSelectTopImageBottomLabelCell(with movieID: Int) {
-        coordinator?.goToMovieDetail(id: movieID)
+    func didSelectTopImageBottomLabelCell(with movieID: Int?) {
+        coordinator?.goToMovieDetail(id: movieID ?? 0)
     }
     
     //MARK: Properties
     
     let viewModel = HomeViewModel()
     var coordinator: MainCoordinator?
+    var categoryTitle: String?
     
     //MARK: - Lifecycle methods
     
@@ -47,6 +55,7 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     }()
     
     //MARK: - UI Configuration
+    
     private func configureUI() {
         view.addSubview(collectionView)
         view.backgroundColor = .white
@@ -55,6 +64,7 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     }
     
     //MARK: - Constraints
+    
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -62,6 +72,7 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     }
     
     //MARK: - View Model Configuration
+    
     fileprivate func configureViewModel() {
         viewModel.getMovies()
         viewModel.success = { [weak self] in
@@ -70,6 +81,7 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     }
     
     //MARK: - Setup Navigation Bar Button Items
+    
    private func setupNavigationBarButtons() {
         let searchButton = UIBarButtonItem(
             image: UIImage(named: "searchAction"),
@@ -87,7 +99,6 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
     }
     
     @objc func searchButtonTapped() {
-        print("Coordinator: \(String(describing: coordinator))")
         coordinator?.goToSearch()
     }
     
@@ -97,6 +108,7 @@ final class HomeViewController: UIViewController, HomeCellDelegate {
 }
 
     //MARK: -Data Source methods
+
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.results.count
@@ -106,6 +118,7 @@ extension HomeViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
         cell.delegate = self
         let item = viewModel.results[indexPath.row]
+        cell.titleForCategory = item.title
         cell.configureCell(title: item.title, movies: item.movies)
         cell.backgroundColor = .white
         return cell
@@ -113,12 +126,12 @@ extension HomeViewController: UICollectionViewDataSource {
 }
     
     //MARK: -Delegate Methods
+
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let controller = MovieDetailViewController()
-//       // controller.viewModel = MovieDetailViewModel(movieID: movieID ?? 23898)
-//    }
-//    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 260)
     }

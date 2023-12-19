@@ -12,7 +12,7 @@ enum MovieDetailItemType {
     case title (String?) //done
     case info (MovieInfoModel?) //done
     case description (String?) //done
-    case cast (String?)
+    case cast ([PeopleListResult]?)
 }
 
 struct MovieDetailModel {
@@ -30,6 +30,7 @@ struct MovieInfoModel {
 class MovieDetailViewModel {
     
     private let manager = MovieDetailManager ()
+    private let peopleManager = PeopleManager()
     var items = [MovieDetailModel]()
     var movieID: Int
     var success: (() -> Void)?
@@ -52,7 +53,6 @@ class MovieDetailViewModel {
                     language: data.originalLanguage ?? "",
                     length: data.runtime ?? 0,
                     rating: data.voteAverage ?? 0))))
-                self.items.append(.init(type: .cast(data.originalTitle)))
                 completion()
             }
         }
@@ -75,9 +75,32 @@ class MovieDetailViewModel {
     }
    
     func getCast() {
-        
+        peopleManager.getPeopleList(pageNumber: 1) { data, errorMessage in
+            if let errorMessage {
+                self.error?(errorMessage)
+            } else if let data {
+                self.items.append(.init(type: .cast(data.results)))
+            }
+        }
+    }
+    
+    func getCastMembers(completion: @escaping ([PeopleListResult]) -> Void) {
+        self.getCast()
+        var castMembers: [PeopleListResult] = []
+        getDetail {
+            for item in self.items {
+                switch item.type {
+                case .cast(let cast):
+                    castMembers.append(contentsOf: cast ?? [])
+                default:
+                    break
+                }
+            }
+        }
     }
 }
+
+
 
 
 //enum MovieeLanguage: String {

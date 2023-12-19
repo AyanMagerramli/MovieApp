@@ -9,7 +9,8 @@ import UIKit
 import SnapKit
 
 protocol HomeCellDelegate {
-    func didSelectTopImageBottomLabelCell(with movieID: Int)
+    func didSeeAllButtonTapped(with title: String)
+    func didSelectTopImageBottomLabelCell(with movieID: Int?)
 }
 
 class HomeCell: UICollectionViewCell {
@@ -21,6 +22,7 @@ class HomeCell: UICollectionViewCell {
     var coordinator: MainCoordinator?
     var delegate: HomeCellDelegate?
     var movieInfoViewModel: MovieDetailViewModel?
+    var titleForCategory: String?
 
     //MARK: - Lifecycle methods
     
@@ -35,7 +37,7 @@ class HomeCell: UICollectionViewCell {
     
     //MARK: UI Elements
     
-    private let titleLabel = {
+     let titleLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -58,14 +60,27 @@ class HomeCell: UICollectionViewCell {
         return collection
     }()
     
-    private let seeAllButton: UIButton = {
-        let button = UIButton()
+    lazy var seeAllButton: UIButton = { [weak self] in
+        guard let self = self else { return UIButton() }
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+     //   button.isEnabled = true //by default this is true
         button.setTitle("See all >", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.backgroundColor = .white
+        print("Button created in HomeCell")
+        button.addTarget(self, action: #selector(didSeeAllButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    @objc private func didSeeAllButtonTapped(_ sender: UIButton) {
+        print("See all button tapped")
+        delegate?.didSeeAllButtonTapped(with: titleForCategory ?? "No value")
+        UserDefaults.standard.removeObject(forKey: "title")
+        UserDefaults.standard.setValue(titleForCategory, forKey: "title")
+
+    }
     
     //MARK: - UI Configuration
     
@@ -79,19 +94,21 @@ class HomeCell: UICollectionViewCell {
     //MARK: - Constraints
     
     private func setupConstraints() {
-        collectionView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(30)
-        }
-        
         titleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).offset(4)
-            make.left.equalToSuperview().inset(34)
+            make.top.equalToSuperview().inset(4)
+            make.leading.equalToSuperview().inset(34)
         }
         
         seeAllButton.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).offset(4)
-            make.right.equalToSuperview().inset(34)
+            make.top.equalToSuperview().inset(4)
+            make.trailing.equalToSuperview().inset(34)
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(30)
+            make.height.equalTo(240)
+            make.width.equalToSuperview()
         }
     }
     
@@ -127,16 +144,20 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movieID = movies[indexPath.item].id {
             print("ayannnnn \(movieID)")
+  //          let cell = CastCell()
+//            if cell.cast[indexPath.row].id == movieID {
+//                
+//            }
             delegate?.didSelectTopImageBottomLabelCell(with: movieID)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width/2-20, height: collectionView.frame.height)
+        .init(width: collectionView.frame.width/2-20, height: collectionView.frame.height-16)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 0, left: 24, bottom: 0, right: 0)
+        .init(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

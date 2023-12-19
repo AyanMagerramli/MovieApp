@@ -91,14 +91,14 @@ class CastCell: UICollectionViewCell {
 
 extension CastCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
-       // cast.count
+        cast.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopImageBottomLabelCell.identifier, for: indexPath) as! TopImageBottomLabelCell
         cell.backgroundColor = .white
-      //  cell.configureCell(data: cast[indexPath.row])
+        cell.configureCell(data: cast[indexPath.row])
+        
         return cell
     }
 }

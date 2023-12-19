@@ -51,6 +51,9 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        viewModel.getCastMembers { peopleResult in
+            self.cast = peopleResult ?? []
+        }
         print(viewModel.items)
     }
     
@@ -65,11 +68,6 @@ class MovieDetailViewController: UIViewController {
             self.collectionView.reloadData()
             self.viewModel.success?()
         }
-        
-//        viewModel.getCastMembers { castMembers in
-//            self.cast = castMembers
-//            self.collectionView.reloadData()
-//        }
     }
 }
 
@@ -106,7 +104,6 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             let infoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
                infoCell.viewModel = self.viewModel
             infoCell.genres = genres
-         //   infoCell.movieID = self.mo
             if let movieInfo {
                 infoCell.configureCell(data: movieInfo)
             }

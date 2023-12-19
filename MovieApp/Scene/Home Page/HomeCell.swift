@@ -144,10 +144,6 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let movieID = movies[indexPath.item].id {
             print("ayannnnn \(movieID)")
-  //          let cell = CastCell()
-//            if cell.cast[indexPath.row].id == movieID {
-//                
-//            }
             delegate?.didSelectTopImageBottomLabelCell(with: movieID)
         }
     }

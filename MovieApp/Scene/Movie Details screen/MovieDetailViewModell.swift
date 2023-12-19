@@ -48,6 +48,7 @@ class MovieDetailViewModel {
                 self.items.append(.init(type: .poster(data.posterPath)))
                 self.items.append(.init(type: .title(data.originalTitle)))
                 self.items.append(.init(type: .description(data.overview)))
+                //self.items.append(.init(type: .cast()))
                 self.items.append(.init(type: .info(MovieInfoModel(
                     genres: data.genres ?? [],
                     language: data.originalLanguage ?? "",
@@ -75,7 +76,7 @@ class MovieDetailViewModel {
     }
    
     func getCast() {
-        peopleManager.getPeopleList(pageNumber: 1) { data, errorMessage in
+        peopleManager.getPeopleList(pageNumber: 2) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
             } else if let data {
@@ -84,19 +85,22 @@ class MovieDetailViewModel {
         }
     }
     
-    func getCastMembers(completion: @escaping ([PeopleListResult]) -> Void) {
+    func getCastMembers(completion: @escaping ([PeopleListResult]?) -> Void) {
         self.getCast()
-        var castMembers: [PeopleListResult] = []
         getDetail {
             for item in self.items {
                 switch item.type {
                 case .cast(let cast):
-                    castMembers.append(contentsOf: cast ?? [])
+                    let knowForList = cast?.compactMap({ result in
+                        return result.knownFor?.first(where: {$0.id == self.movieID})
+                    })
+                    completion(cast)
                 default:
                     break
                 }
             }
         }
+        
     }
 }
 

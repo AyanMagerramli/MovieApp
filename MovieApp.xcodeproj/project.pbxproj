@@ -217,7 +217,6 @@
 			children = (
 				117AE7EF2B2369EB00491FE6 /* PeopleViewController.swift */,
 				117AE7F12B236A3D00491FE6 /* PeopleViewModel.swift */,
-				117AE7F32B23733000491FE6 /* PeopleResponseModel.swift */,
 			);
 			path = "Peope Page";
 			sourceTree = "<group>";
@@ -253,6 +252,7 @@
 			children = (
 				1179A89C2B1B2E4300FDA2C2 /* HomeResponseModel.swift */,
 				113D7C082B2D077E0013DC1C /* MovieDetailResponseModel.swift */,
+				117AE7F32B23733000491FE6 /* PeopleResponseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

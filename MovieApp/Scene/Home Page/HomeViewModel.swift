@@ -19,20 +19,22 @@ class HomeViewModel {
     var results = [HomeModel]()
     var success: (() -> Void)?
     var error: ((String) -> Void)?
+    var data: Movie?
     
     func getMovies() {
-        getMovies(title: "Now Playing", endpoint: Endpoints.nowPlayingEndpoint)
-        getMovies(title: "Popular", endpoint: Endpoints.popularEndpoint)
-        getMovies(title: "Top-rated", endpoint: Endpoints.topRatedEndpoint)
-        getMovies(title: "Upcoming", endpoint: Endpoints.upcomingEndpoint)
+        getMovies(title: "Now Playing", endpoint: HomeEndpoint.nowPlayingEndpoint)
+        getMovies(title: "Popular", endpoint: HomeEndpoint.popularEndpoint)
+        getMovies(title: "Top-rated", endpoint: HomeEndpoint.topRatedEndpoint)
+        getMovies(title: "Upcoming", endpoint: HomeEndpoint.upcomingEndpoint)
     }
     
-    func getMovies(title: String, endpoint: Endpoints) {
-        manager.getMovieList(endpoint: endpoint) { data, errorMessage in
+    func getMovies(title: String, endpoint: HomeEndpoint) {
+        manager.getMovieList(pageNumber: (data?.page ?? 0) + 1, endpoint: endpoint) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
             } else if let data {
                 self.results.append(.init(title: title, movies: data.results ?? []))
+                self.data = data
                 self.success?()
             }
         }

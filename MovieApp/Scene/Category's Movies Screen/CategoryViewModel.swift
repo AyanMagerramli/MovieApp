@@ -15,27 +15,30 @@ class CategoryViewModel {
     var success: (() -> Void)?
     var error: ((String) -> Void)?
     var movieResults:[MovieResult] = []
+    var data: Movie?
+    var title: String?
+    var endpoint: HomeEndpoint?
     
     func getMovies(completion: @escaping () -> Void) {
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
-        getMovies(title: "Now Playing", endpoint: Endpoints.nowPlayingEndpoint) {
+        getMovies(title: "Now Playing", endpoint: HomeEndpoint.nowPlayingEndpoint) {
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getMovies(title: "Popular", endpoint: Endpoints.popularEndpoint) {
+        getMovies(title: "Popular", endpoint: HomeEndpoint.popularEndpoint) {
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getMovies(title: "Top-rated", endpoint: Endpoints.topRatedEndpoint) {
+        getMovies(title: "Top-rated", endpoint: HomeEndpoint.topRatedEndpoint) {
             dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
-        getMovies(title: "Upcoming", endpoint: Endpoints.upcomingEndpoint) {
+        getMovies(title: "Upcoming", endpoint: HomeEndpoint.upcomingEndpoint) {
             dispatchGroup.leave()
         }
         
@@ -44,13 +47,25 @@ class CategoryViewModel {
         }
     }
     
-    func getMovies(title: String, endpoint: Endpoints, completion: @escaping () -> Void) {
-        manager.getMovieList(endpoint: endpoint) { data, errorMessage in
+    func getMovies(title: String, endpoint: HomeEndpoint, completion: @escaping () -> Void) {
+        manager.getMovieList(pageNumber: (data?.page ?? 0) + 1, endpoint: endpoint) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
             } else if let data {
                 self.results.append(.init(title: title, movies: data.results ?? []))
+                self.data = data
                 completion()
+            }
+        }
+    }
+    
+    func makePagination(index: Int) {
+        if index == results.count-1 && data?.page ?? 0 <= data?.totalPages ?? 0 {
+            if let title = title,
+               let endpoint = endpoint {
+                getMovies(title: title, endpoint: endpoint ) {
+                    // self.success?()
+                }
             }
         }
     }

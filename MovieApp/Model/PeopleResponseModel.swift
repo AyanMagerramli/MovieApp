@@ -51,14 +51,7 @@ struct PeopleListResult: Codable, HomeCellProtocol {
 }
 
 // MARK: - KnownFor
-struct KnownFor: Codable, HomeCellProtocol {
-    var ttle: String {
-        title ?? ""
-    }
-    
-    var img: String {
-        posterPath ?? ""
-    }
+struct KnownFor: Codable {
     
     let id: Int?
     let title: String?

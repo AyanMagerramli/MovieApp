@@ -44,6 +44,7 @@ class CategoryViewController: UIViewController  {
     fileprivate func getTitleFromUserDefaults() {
         if let savedTitle = UserDefaults.standard.string(forKey: "title") {
             selectedTitle = savedTitle
+            viewModel.title = selectedTitle
             print("Selected Title retrieved from UserDefaults: \(savedTitle)")
         }
     }
@@ -134,6 +135,10 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         .init(top: 0, left: 10, bottom: 4, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.makePagination(index: indexPath.item)
     }
 }
 

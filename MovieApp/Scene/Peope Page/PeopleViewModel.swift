@@ -14,23 +14,8 @@ class PeopleViewModel {
     var success: (() -> Void)?
     var error: ((String) -> Void)?
     
-    
-//    func getPeopleList() {
-//        NetworkManager.request(
-//            model: People.self,
-//            endpoint: Endpoints.popularPeople.rawValue)
-//        {
-//            data, error in
-//            if let error {
-//                self.error? (error)
-//            }else if let data {
-//                self.items = data.results ?? []
-//                self.success?()
-//            }
-//        }
-//    }
     func getPeopleList() {
-        manager.getPeopleList(pageNumber: (peopleData?.totalPages ?? 0) + 1) { data, error in
+        manager.getPeopleList(pageNumber: (peopleData?.page ?? 0) + 1) { data, error in
             if let error {
                 self.error? (error)
             } else if let data {
@@ -42,11 +27,13 @@ class PeopleViewModel {
     }
     
     func makePagination(index: Int) {
+        //current page < total page
         if index == items.count-1 && (peopleData?.page ?? 0 <= peopleData?.totalPages ?? 0) {
             getPeopleList()
         }
     }
     
+    //this is for pull to refresh
     func reset() {
         peopleData = nil
         items.removeAll()

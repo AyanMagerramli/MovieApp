@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MovieListUseCase {
-    func getMovieList (endpoint: Endpoints, completion: @escaping((Movie?, String?) -> Void))
+    func getMovieList (pageNumber: Int, endpoint: HomeEndpoint, completion: @escaping((Movie?, String?) -> Void))
 }

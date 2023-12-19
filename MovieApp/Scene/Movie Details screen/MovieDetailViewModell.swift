@@ -24,7 +24,6 @@ struct MovieInfoModel {
     let language: String
     let length: Int
     let rating: Double
-    // let rating2: String
 }
 
 class MovieDetailViewModel {
@@ -48,7 +47,6 @@ class MovieDetailViewModel {
                 self.items.append(.init(type: .poster(data.posterPath)))
                 self.items.append(.init(type: .title(data.originalTitle)))
                 self.items.append(.init(type: .description(data.overview)))
-                //self.items.append(.init(type: .cast()))
                 self.items.append(.init(type: .info(MovieInfoModel(
                     genres: data.genres ?? [],
                     language: data.originalLanguage ?? "",
@@ -100,25 +98,5 @@ class MovieDetailViewModel {
                 }
             }
         }
-        
     }
 }
-
-
-
-
-//enum MovieeLanguage: String {
-//    case ru
-//    case en
-//    
-//    var language: String {
-//        switch self {
-//            
-//        case .ru:
-//            return "Russian"
-//        case .en:
-//            return "English"
-//        }
-//    }
-//    
-//}

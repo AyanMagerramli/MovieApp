@@ -8,7 +8,7 @@
 import Foundation
 
 class HomeManager: MovieListUseCase {
-    func getMovieList(endpoint: Endpoints, completion: @escaping ((Movie?, String?) -> Void)) {
+    func getMovieList(pageNumber: Int, endpoint: HomeEndpoint, completion: @escaping ((Movie?, String?) -> Void)) {
         NetworkManager.request(model: Movie.self, endpoint: endpoint.rawValue, completion: completion)
     }    
 }

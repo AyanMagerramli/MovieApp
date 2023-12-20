@@ -15,7 +15,7 @@ class MovieDetailViewController: UIViewController {
     var viewModel: MovieDetailViewModel
     weak var coordinator: MainCoordinator?
     var genres = [Genre]()
-    var cast = [PeopleListResult]()
+    var cast = [CastElement?]()
     
     //MARK: - UI Elements
     
@@ -51,9 +51,11 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        viewModel.getCastMembers { peopleResult in
-            self.cast = peopleResult ?? []
-        }
+        
+        
+//        viewModel.getCastMembers { peopleResult in
+//            self.cast = peopleResult ?? []
+//        }
         print(viewModel.items)
     }
     
@@ -62,11 +64,15 @@ class MovieDetailViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
-        
+        viewModel.getCast { castMembers in
+            self.cast = castMembers
+            self.collectionView.reloadData()
+        }
+
         viewModel.getGenres { genres in
             self.genres = genres
             self.collectionView.reloadData()
-            self.viewModel.success?()
+            //self.viewModel.success?()
         }
     }
 }
@@ -120,7 +126,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             
         case .cast:
             let castCell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
-            castCell.cast = cast
+            castCell.cast = self.cast
             cell = castCell
             return cell
         }

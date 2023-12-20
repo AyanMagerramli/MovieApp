@@ -12,7 +12,7 @@ enum MovieDetailItemType {
     case title (String?) //done
     case info (MovieInfoModel?) //done
     case description (String?) //done
-    case cast ([PeopleListResult]?)
+    case cast ([CastElement]?)
 }
 
 struct MovieDetailModel {
@@ -28,8 +28,9 @@ struct MovieInfoModel {
 
 class MovieDetailViewModel {
     
-    private let manager = MovieDetailManager ()
-    private let peopleManager = PeopleManager()
+    private let manager = MovieDetailManager()
+  //  private let peopleManager = PeopleManager()
+    private let castManager  = CastManager()
     var items = [MovieDetailModel]()
     var movieID: Int
     var success: (() -> Void)?
@@ -39,7 +40,14 @@ class MovieDetailViewModel {
         self.movieID = movieID
     }
     
+    private var detailsFetched = false
+    
     func getDetail(completion: @escaping () -> Void) {
+        guard !detailsFetched else {
+            completion()
+            return
+        }
+        
         manager.getMovieDetail(movieID: self.movieID) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
@@ -52,6 +60,7 @@ class MovieDetailViewModel {
                     language: data.originalLanguage ?? "",
                     length: data.runtime ?? 0,
                     rating: data.voteAverage ?? 0))))
+                self.detailsFetched = true
                 completion()
             }
         }
@@ -72,31 +81,50 @@ class MovieDetailViewModel {
             completion(genres)
         }
     }
-   
-    func getCast() {
-        peopleManager.getPeopleList(pageNumber: 2) { data, errorMessage in
+    
+    func getCast(completion: @escaping(([CastElement?]) -> Void)) {
+        castManager.getCastDetail(movieID: self.movieID) { data, errorMessage in
             if let errorMessage {
                 self.error?(errorMessage)
             } else if let data {
-                self.items.append(.init(type: .cast(data.results)))
+                let castMembers =
+                self.items.append(.init(type: .cast(data.cast)))
+                // Filter items array to only include CastElement type data
+                            let castItems = self.items.compactMap { item in
+                                if case .cast(let cast) = item.type {
+                                    return cast
+                                }
+                                return nil
+                            }.flatMap { $0 }
+                completion(castItems)
             }
         }
     }
-    
-    func getCastMembers(completion: @escaping ([PeopleListResult]?) -> Void) {
-        self.getCast()
-        getDetail {
-            for item in self.items {
-                switch item.type {
-                case .cast(let cast):
-                    let knowForList = cast?.compactMap({ result in
-                        return result.knownFor?.first(where: {$0.id == self.movieID})
-                    })
-                    completion(cast)
-                default:
-                    break
-                }
-            }
-        }
-    }
+   
+//    func getCast() {
+//        peopleManager.getPeopleList(pageNumber: 2) { data, errorMessage in
+//            if let errorMessage {
+//                self.error?(errorMessage)
+//            } else if let data {
+//                self.items.append(.init(type: .cast(data.results)))
+//            }
+//        }
+//    }
+//    
+//    func getCastMembers(completion: @escaping ([PeopleListResult]?) -> Void) {
+//        self.getCast()
+//        getDetail {
+//            for item in self.items {
+//                switch item.type {
+//                case .cast(let cast):
+//                    let knowForList = cast?.compactMap({ result in
+//                        return result.knownFor?.first(where: {$0.id == self.movieID})
+//                    })
+//                    completion(cast)
+//                default:
+//                    break
+//                }
+//            }
+//        }
+//    }
 }

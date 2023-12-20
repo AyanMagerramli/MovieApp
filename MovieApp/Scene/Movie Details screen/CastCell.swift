@@ -13,7 +13,7 @@ class CastCell: UICollectionViewCell {
     //MARK: Properties
     
     static let identifier = "CastCell"
-    var cast = [PeopleListResult]()
+    var cast = [CastElement?]()
     
     //MARK: - UI Elements
     
@@ -97,8 +97,9 @@ extension CastCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopImageBottomLabelCell.identifier, for: indexPath) as! TopImageBottomLabelCell
         cell.backgroundColor = .white
-        cell.configureCell(data: cast[indexPath.row])
-        
+        if let cast = cast[indexPath.row] {
+            cell.configureCell(data: cast)
+        }
         return cell
     }
 }

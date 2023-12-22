@@ -50,6 +50,10 @@ class HomeCell: UICollectionViewCell {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: (contentView.frame.size.width/2)-30, height: (contentView.frame.size.height)-12)
+        layout.minimumLineSpacing = 30
+        layout.minimumInteritemSpacing = 4
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
@@ -106,7 +110,7 @@ class HomeCell: UICollectionViewCell {
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview().inset(30)
+            make.leading.equalToSuperview()
             make.height.equalTo(240)
             make.width.equalToSuperview()
         }
@@ -146,22 +150,6 @@ extension HomeCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
             print("ayannnnn \(movieID)")
             delegate?.didSelectTopImageBottomLabelCell(with: movieID)
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width/2-20, height: collectionView.frame.height-16)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 0, left: 0, bottom: 0, right: 0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        20
     }
 }
 

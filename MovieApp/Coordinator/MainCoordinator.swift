@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class MainCoordinator: Coordinator {
+    
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
     var window: UIWindow?
@@ -38,11 +39,20 @@ class MainCoordinator: Coordinator {
         let viewModel = MovieDetailViewModel(movieID: id)
         let vc = MovieDetailViewController(viewModel: viewModel)
         vc.coordinator = self
+        //hides tab bar 
+        vc.hidesBottomBarWhenPushed = true
         navigationController.show(vc, sender: self)
     }
     
     func goToCategory () {
         let vc = CategoryViewController()
+        vc.coordinator = self
+        navigationController.show(vc, sender: self)
+    }
+    
+    func goToPeopleMovieList(id: Int) {
+        let viewModel = PeopleMovieListViewModel(personID: id)
+        let vc = PeopleMovieListController(viewModel: viewModel)
         vc.coordinator = self
         navigationController.show(vc, sender: nil)
     }

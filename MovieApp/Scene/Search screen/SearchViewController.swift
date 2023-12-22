@@ -13,12 +13,14 @@ class SearchViewController: UIViewController {
     weak var coordinator: MainCoordinator?
 
     // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()        
     }
     
     // MARK: - UI Elements
+    
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.dataSource = self
@@ -64,6 +66,7 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
+    
    private func configureUI() {
         view.backgroundColor = .white
         title = "Search"
@@ -75,6 +78,7 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - Constraints
+    
    private func setupConstraints() {
         tableView.snp.makeConstraints { make in
             make.bottom.left.right.equalToSuperview()
@@ -103,6 +107,7 @@ class SearchViewController: UIViewController {
 
 
     //MARK: -Table View Data Source methods
+
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.results.count
@@ -116,6 +121,7 @@ extension SearchViewController: UITableViewDataSource {
 }
 
     //MARK: -Table View Delegate methods
+
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)

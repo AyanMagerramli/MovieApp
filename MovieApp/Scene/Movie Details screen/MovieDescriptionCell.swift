@@ -68,6 +68,18 @@ class MovieDescriptionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        setNeedsLayout()
+        layoutIfNeeded()
+        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+                var newFrame = layoutAttributes.frame
+                newFrame.size.width = ceil(size.width)
+                newFrame.size.height = ceil(size.height)
+                layoutAttributes.frame = newFrame
+
+                return layoutAttributes
+    }
+    
     //MARK: - Cell Data Configuration
     
     func configureCell(data: String) {

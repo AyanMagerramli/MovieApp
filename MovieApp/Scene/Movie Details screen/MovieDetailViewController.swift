@@ -14,14 +14,14 @@ class MovieDetailViewController: UIViewController {
     
     var viewModel: MovieDetailViewModel
     weak var coordinator: MainCoordinator?
-    var genres = [Genre]()
-    var cast = [CastElement?]()
     
     //MARK: - UI Elements
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 24, right: 0)
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         title = "Movie Detail"
         collection.backgroundColor = .white
@@ -37,7 +37,6 @@ class MovieDetailViewController: UIViewController {
     
     init(viewModel: MovieDetailViewModel) {
         self.viewModel = viewModel
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,11 +50,7 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-        
-//        viewModel.getCastMembers { peopleResult in
-//            self.cast = peopleResult ?? []
-//        }
+        configureViewModel()
         print(viewModel.items)
     }
     
@@ -64,15 +59,12 @@ class MovieDetailViewController: UIViewController {
     private func configureUI() {
         view.addSubview(collectionView)
         collectionView.frame = view.bounds
-        viewModel.getCast { castMembers in
-            self.cast = castMembers
+    }
+    
+    fileprivate func configureViewModel() {
+        viewModel.getDetail()
+        viewModel.success = {
             self.collectionView.reloadData()
-        }
-
-        viewModel.getGenres { genres in
-            self.genres = genres
-            self.collectionView.reloadData()
-            //self.viewModel.success?()
         }
     }
 }
@@ -109,7 +101,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         case .info(let movieInfo):
             let infoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieInfoCell.identifier, for: indexPath) as! MovieInfoCell
                infoCell.viewModel = self.viewModel
-            infoCell.genres = genres
+            infoCell.genres = movieInfo?.genres ?? []
             if let movieInfo {
                 infoCell.configureCell(data: movieInfo)
             }
@@ -124,9 +116,9 @@ extension MovieDetailViewController: UICollectionViewDataSource {
             cell = descriptionCell
             return cell
             
-        case .cast:
+        case .cast(let cast):
             let castCell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
-            castCell.cast = self.cast
+            castCell.cast = cast ?? []
             cell = castCell
             return cell
         }
@@ -141,6 +133,6 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 300)
+        .init(width: collectionView.frame.width, height: 200)
     }
 }

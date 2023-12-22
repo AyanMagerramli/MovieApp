@@ -9,7 +9,7 @@ import UIKit
 
 class PeopleViewController: UIViewController {
     let viewModel = PeopleViewModel()
-    weak var coordinator: MainCoordinator?
+    var coordinator: MainCoordinator?
     
     //for pull to request
     let refreshControl = UIRefreshControl()
@@ -25,6 +25,9 @@ class PeopleViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: (view.frame.size.width/2)-4, height: (view.frame.size.height/3)-20)
+        layout.minimumLineSpacing = 20
+        layout.minimumInteritemSpacing = 4
         let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         title = "Celebrities"
         collection.backgroundColor = .white
@@ -85,16 +88,16 @@ extension PeopleViewController: UICollectionViewDataSource {
     //MARK: -Collection View Delegate Methods
 extension PeopleViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
+          coordinator?.goToPeopleMovieList(id: viewModel.items[indexPath.row].id ?? 0)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width/2-18, height: 240)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        .init(width: collectionView.frame.width/2-18, height: 240)
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 0, left: 12, bottom: 0, right: 12)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        .init(top: 0, left: 12, bottom: 0, right: 12)
+//    }
     
     //For pagination logic we use willDisplay method
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

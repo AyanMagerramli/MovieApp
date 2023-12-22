@@ -41,7 +41,7 @@ class CastCell: UICollectionViewCell {
         collection.dataSource = self
         collection.showsHorizontalScrollIndicator = false
         collection.register(TopImageBottomLabelCell.self, forCellWithReuseIdentifier: TopImageBottomLabelCell.identifier)
-        collection.backgroundColor = .blue
+        collection.backgroundColor = .white
         return collection
     }()
     
@@ -61,7 +61,7 @@ class CastCell: UICollectionViewCell {
         castCollection.snp.makeConstraints { make in
             make.top.equalTo(castLabel.snp.bottom).offset(16)
             make.leading.equalToSuperview().inset(24)
-            make.height.equalTo(120)
+            make.height.equalTo(200)
             make.width.equalToSuperview()
         }
     }
@@ -112,6 +112,6 @@ extension CastCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 72, height: collectionView.frame.height-4)
+        .init(width: 140, height: collectionView.frame.height-30)
     }
 }

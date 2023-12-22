@@ -11,6 +11,9 @@ class PeopleManager: PeopleListUseCase {
     //we add here page number for Pagination, beacuse without pageNumber it always shows page 1.
     func getPeopleList(pageNumber: Int, completion: @escaping ((People?, String?) -> Void)) {
         let url = PeopleEndpoint.popularPeople.rawValue + "?page=\(pageNumber)"
-        NetworkManager.request(model: People.self, endpoint: url, completion: completion)
+        NetworkManager.request(
+            model: People.self,
+            endpoint: url,
+            completion: completion)
     }
 }

@@ -23,9 +23,10 @@ class TabBarController: UITabBarController {
         
         let secondVC = PeopleViewController()
         let peopleNav = UINavigationController(rootViewController: secondVC)
+        secondVC.coordinator = MainCoordinator(navigationController: peopleNav)
         secondVC.tabBarItem.title = "Celebrities"
         secondVC.tabBarItem.image = UIImage(named: "celebritiesTabItem")
-        secondVC.tabBarItem.imageInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
+        secondVC.tabBarItem.imageInsets = UIEdgeInsets(top: 24, left: 0, bottom: 12, right: 0)
         
         viewControllers = [homeNav, peopleNav]
     }

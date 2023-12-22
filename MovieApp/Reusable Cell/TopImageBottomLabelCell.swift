@@ -27,6 +27,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         label.textColor = .black
         label.numberOfLines = 0
         label.backgroundColor = .white
+          label.textAlignment = .center
         return label
     }()
    
@@ -34,7 +35,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         let image = UIImageView()
         image.layer.cornerRadius = 16
         image.layer.masksToBounds = true
-        image.contentMode = .scaleAspectFill
+         image.contentMode = .scaleAspectFill
          image.backgroundColor = .lightGray
         image.clipsToBounds = true
         return image
@@ -59,14 +60,15 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         contentView.addSubview(image)
         contentView.addSubview(titleLabel)
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(image.snp_bottomMargin).offset(10)
-            make.leading.equalToSuperview().inset(12)
-            make.width.equalTo(200)
+        image.snp.makeConstraints { make in
+            make.top.bottom.left.right.equalToSuperview().inset(4)
         }
         
-        image.snp.makeConstraints { make in
-            make.top.bottom.left.right.equalToSuperview().inset(16)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(image.snp_bottomMargin).offset(10)
+            make.leading.equalToSuperview()
+            make.width.equalTo(150)
+            
         }
     }
   

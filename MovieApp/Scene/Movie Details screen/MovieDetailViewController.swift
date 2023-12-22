@@ -43,8 +43,7 @@ class MovieDetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+        
     //MARK: - Life cycle methods
     
     override func viewDidLoad() {
@@ -119,6 +118,7 @@ extension MovieDetailViewController: UICollectionViewDataSource {
         case .cast(let cast):
             let castCell = collectionView.dequeueReusableCell(withReuseIdentifier: CastCell.identifier, for: indexPath) as! CastCell
             castCell.cast = cast ?? []
+            castCell.delegate = self
             cell = castCell
             return cell
         }
@@ -134,5 +134,17 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         .init(width: collectionView.frame.width, height: 200)
+    }
+}
+
+    //MARK: - CastCellProtocol extention
+
+extension MovieDetailViewController: CastCellProtocol {
+    func didCelebrityCellTapped(personID: Int) {
+        coordinator?.goToPeopleMovieList(id: personID)
+    }
+    
+    func didSeeAllButtonTapped() {
+        coordinator?.goToPeople()
     }
 }

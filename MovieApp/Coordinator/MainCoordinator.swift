@@ -56,5 +56,11 @@ class MainCoordinator: Coordinator {
         vc.coordinator = self
         navigationController.show(vc, sender: nil)
     }
+    
+    func goToPeople() {
+        let vc = PeopleViewController()
+        vc.coordinator = self
+        navigationController.show(vc, sender: nil)
+    }
 }
 

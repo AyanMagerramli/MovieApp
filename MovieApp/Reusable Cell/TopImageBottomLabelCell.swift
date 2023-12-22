@@ -9,17 +9,24 @@ import UIKit
 import SnapKit
 
 //MARK: -CELL Data Configure Protocols
+
 protocol HomeCellProtocol {
     var ttle: String {get}
     var img: String {get}
 }
 
 //MARK: -NestedCollectionCell within collection view in HomeCell
+
 class TopImageBottomLabelCell: UICollectionViewCell {
+    
+    //MARK: Properties
+    
     static let identifier = "NestedCollectionCell"
     var movies = [MovieResult]()
     var indexPath: IndexPath?
 
+    //MARK: - UI Elements
+    
       let titleLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
@@ -40,6 +47,8 @@ class TopImageBottomLabelCell: UICollectionViewCell {
         image.clipsToBounds = true
         return image
     }()
+    
+    //MARK: - Life cycle
     
     override init(frame: CGRect) {
          super.init(frame: frame)
@@ -73,6 +82,7 @@ class TopImageBottomLabelCell: UICollectionViewCell {
     }
   
 //MARK: - CELL data configure method
+    
     func configureCell (data: HomeCellProtocol) {
         image.loadImage(url: data.img)
         titleLabel.text = data.ttle

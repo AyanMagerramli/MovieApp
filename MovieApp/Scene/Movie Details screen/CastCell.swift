@@ -8,12 +8,19 @@
 import UIKit
 import SnapKit
 
+protocol CastCellProtocol {
+    func didSeeAllButtonTapped()
+    func didCelebrityCellTapped(personID: Int)
+}
+
 class CastCell: UICollectionViewCell {
     
     //MARK: Properties
     
     static let identifier = "CastCell"
     var cast = [CastElement?]()
+    var coordinator: MainCoordinator?
+    var delegate: CastCellProtocol?
     
     //MARK: - UI Elements
     
@@ -30,6 +37,7 @@ class CastCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage(named: "seeMore"), for: .normal)
         button.backgroundColor = .white
+        button.addTarget(self, action: #selector(didSeeAllButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -44,6 +52,10 @@ class CastCell: UICollectionViewCell {
         collection.backgroundColor = .white
         return collection
     }()
+    
+    @objc private func didSeeAllButtonTapped() {
+        delegate?.didSeeAllButtonTapped()
+    }
     
     //MARK: - Constraints
     
@@ -108,7 +120,7 @@ extension CastCell: UICollectionViewDataSource {
 
 extension CastCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        delegate?.didCelebrityCellTapped(personID: cast[indexPath.row]?.id ?? 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

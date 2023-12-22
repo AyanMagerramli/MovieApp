@@ -14,7 +14,7 @@ class CategoryViewModel {
     var results = [HomeModel]()
     var success: (() -> Void)?
     var error: ((String) -> Void)?
-    var movieResults:[MovieResult] = []
+    var movieResults:[MovieResult?] = []
     var data: Movie?
     var title: String?
     var endpoint: HomeEndpoint?
@@ -53,6 +53,7 @@ class CategoryViewModel {
                 self.error?(errorMessage)
             } else if let data {
                 self.results.append(.init(title: title, movies: data.results ?? []))
+                self.movieResults.append(contentsOf: data.results ?? [])
                 self.data = data
                 completion()
             }
@@ -64,7 +65,6 @@ class CategoryViewModel {
             if let title = title,
                let endpoint = endpoint {
                 getMovies(title: title, endpoint: endpoint ) {
-                    // self.success?()
                 }
             }
         }

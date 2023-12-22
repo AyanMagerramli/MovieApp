@@ -9,10 +9,10 @@ import UIKit
 
 class CategoryViewController: UIViewController  {
     
-    //MARK: - Properties
+    //MARK: Properties
     
     var coordinator: MainCoordinator?
-    let viewModel = CategoryViewModel()
+    var viewModel = CategoryViewModel()
     var selectedTitle: String?
     var movies: [MovieResult] = []
     
@@ -33,7 +33,7 @@ class CategoryViewController: UIViewController  {
         title = "All Movies in this Category"
         return collection
     }()
-
+    
     //MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -129,7 +129,34 @@ extension CategoryViewController: UICollectionViewDataSource {
 
 extension CategoryViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        switch selectedTitle {
+            case "Now Playing":
+            let nowPlayingMovies = viewModel.results.first { $0.title == "Now Playing"}
+            if let item = nowPlayingMovies?.movies[indexPath.row] {
+                coordinator?.goToMovieDetail(id: item.id ?? 0)
+            }
+        case "Popular":
+            let popularMovies = viewModel.results.first { $0.title == "Popular"}
+            if let item = popularMovies?.movies[indexPath.row] {
+                coordinator?.goToMovieDetail(id: item.id ?? 0)
+            }
+        case "Upcoming":
+            let upcomingMovies = viewModel.results.first { $0.title == "Upcoming"}
+            if let item = upcomingMovies?.movies[indexPath.row] {
+                coordinator?.goToMovieDetail(id: item.id ?? 0)
+            }
+        case "Top-rated":
+            let topRatedMovies = viewModel.results.first { $0.title == "Top-rated"}
+            if let item = topRatedMovies?.movies[indexPath.row] {
+                coordinator?.goToMovieDetail(id: item.id ?? 0)
+            }
+        default:
+            let nowPlayingMovies = viewModel.results.first { $0.title == "Now Playing"}
+            if let item = nowPlayingMovies?.movies[indexPath.row] {
+                coordinator?.goToMovieDetail(id: item.id ?? 0)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

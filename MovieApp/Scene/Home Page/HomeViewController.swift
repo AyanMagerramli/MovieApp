@@ -10,19 +10,6 @@ import SnapKit
 
 final class HomeViewController: UIViewController, HomeCellDelegate, UINavigationControllerDelegate {
     
-    // See All Button Delegate function
-    
-    func didSeeAllButtonTapped(with title: String) {
-        coordinator?.goToCategory()
-        categoryTitle = title
-    }
-
-    //Home Cell Delegate function
-    
-    func didSelectTopImageBottomLabelCell(with movieID: Int?) {
-        coordinator?.goToMovieDetail(id: movieID ?? 0)
-    }
-    
     //MARK: Properties
     
     let viewModel = HomeViewModel()
@@ -104,6 +91,19 @@ final class HomeViewController: UIViewController, HomeCellDelegate, UINavigation
     
     @objc func menuFilterButtonTapped () {
         print("Menu filter button has been tapped")
+    }
+    
+    // See All Button Delegate function
+    
+    func didSeeAllButtonTapped(with title: String) {
+        coordinator?.goToCategory()
+        categoryTitle = title
+    }
+
+    //Home Cell Delegate function
+    
+    func didSelectTopImageBottomLabelCell(with movieID: Int?) {
+        coordinator?.goToMovieDetail(id: movieID ?? 0)
     }
 }
 

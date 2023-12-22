@@ -83,6 +83,6 @@ extension PeopleMovieListController: UICollectionViewDataSource {
 
 extension PeopleMovieListController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+        coordinator?.goToMovieDetail(id: viewModel.movies[indexPath.row]?.id ?? 0)
     }
 }

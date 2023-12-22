@@ -8,6 +8,9 @@
 import UIKit
 
 class PeopleViewController: UIViewController {
+    
+    //MARK: Properties
+    
     let viewModel = PeopleViewModel()
     var coordinator: MainCoordinator?
     
@@ -15,6 +18,7 @@ class PeopleViewController: UIViewController {
     let refreshControl = UIRefreshControl()
 
     // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -22,6 +26,7 @@ class PeopleViewController: UIViewController {
     }
     
     //MARK: -UI Elements
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -38,6 +43,7 @@ class PeopleViewController: UIViewController {
     }()
     
     //MARK: - UI Configuration
+    
     private func configureUI() {
         view.addSubview(collectionView)
         setupConstraints()
@@ -53,6 +59,7 @@ class PeopleViewController: UIViewController {
     }
     
     //MARK: - View Model Configuration
+    
     fileprivate func configureViewModel() {
         viewModel.getPeopleList()
         viewModel.success = { [weak self] in
@@ -63,6 +70,7 @@ class PeopleViewController: UIViewController {
     }
     
     //MARK: -Constraints
+    
     private func setupConstraints() {
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -71,6 +79,7 @@ class PeopleViewController: UIViewController {
 }
 
     //MARK: -Collection View Data Source Methods
+
 extension PeopleViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.items.count
@@ -86,18 +95,11 @@ extension PeopleViewController: UICollectionViewDataSource {
 }
     
     //MARK: -Collection View Delegate Methods
+
 extension PeopleViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-          coordinator?.goToPeopleMovieList(id: viewModel.items[indexPath.row].id ?? 0)
+         coordinator?.goToPeopleMovieList(id: viewModel.items[indexPath.row].id ?? 0)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        .init(width: collectionView.frame.width/2-18, height: 240)
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        .init(top: 0, left: 12, bottom: 0, right: 12)
-//    }
     
     //For pagination logic we use willDisplay method
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
